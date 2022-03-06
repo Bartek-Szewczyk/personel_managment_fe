@@ -1,8 +1,9 @@
 import React from "react";
+import "./home.scss";
 
 function Home() {
   return (
-    <div style={{ background: "red" }}>
+    <div className="homeContainer">
       <h1>home</h1>
     </div>
   );
