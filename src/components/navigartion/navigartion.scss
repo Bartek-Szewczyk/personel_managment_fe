@@ -1,0 +1,15 @@
+@import "../../theme/globalStyle.scss";
+
+.navigationContainer {
+  padding-left: 20%;
+  display: flex;
+  &__navigation {
+    height: 100vh;
+    width: 20%;
+    background-color: $base-color;
+    left: 0;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+  }
+}
