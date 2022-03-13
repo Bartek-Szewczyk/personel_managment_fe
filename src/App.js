@@ -6,6 +6,7 @@ import Statistic from "../src/pages/statistic/statistic";
 import Staff from "../src/pages/staff/staff";
 import Error from "../src/pages/error/error";
 import Login from "../src/pages/login/login";
+import Reset from "../src/pages/resetPassword/reset";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="statistic" element={<Statistic />} />
         <Route path="staff" element={<Staff />} />
         <Route path="login" element={<Login />} />
+        <Route path="login/reset" element={<Reset />} />
         <Route path="*" element={<Error />} />
       </Route>
     </Routes>
