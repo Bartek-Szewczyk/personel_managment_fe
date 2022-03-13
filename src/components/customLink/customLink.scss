@@ -1,0 +1,21 @@
+@import "../../theme/globalStyle.scss";
+.link {
+  text-align: center;
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 30px;
+  width: 100%;
+  margin: 0;
+  height: 96px;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  display: flex;
+}
+.active {
+  color: #758bff;
+  background: url(../../assets/LinkBg.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: right;
+}
