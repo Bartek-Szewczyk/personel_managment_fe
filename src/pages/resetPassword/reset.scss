@@ -1,6 +1,6 @@
 @import "../../theme/globalStyle.scss";
 
-.loginWrapper {
+.resetWrapper {
   position: absolute;
   left: 0;
   top: 0;
@@ -28,9 +28,6 @@
         font-size: 20px;
         border: 1px solid;
         border-radius: 4px;
-      }
-      &__password {
-        margin-top: 20px;
       }
       &__button {
         margin-top: 20px;
