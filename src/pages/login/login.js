@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./login.scss";
 
 function Login() {
@@ -33,11 +34,14 @@ function Login() {
               setFields({ ...fields, password: e.target.value });
             }}
           ></input>
-          <input
-            type="submit"
-            className="loginWrapper__loginContainer__inputContainer__button"
-            value="Login"
-          ></input>
+          <Link to="/personel_managment_fe" style={{ width: "100%" }}>
+            <input
+              style={{ width: "100%" }}
+              type="submit"
+              className="loginWrapper__loginContainer__inputContainer__button"
+              value="Login"
+            ></input>
+          </Link>
         </div>
         <p
           className="loginWrapper__loginContainer__link"
