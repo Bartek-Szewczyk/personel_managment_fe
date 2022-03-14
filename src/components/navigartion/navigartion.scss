@@ -14,6 +14,7 @@
     justify-content: space-between;
     &__logoutBtn {
       background: #ffffff;
+      color: $base-color;
       border: none;
       font-size: 20px;
       font-family: "Comfortaa";
@@ -30,6 +31,24 @@
     &__linkContainer {
       display: flex;
       flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      &__logoWrapper {
+        &__label {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+        &__logo {
+          cursor: pointer;
+          border-radius: 50%;
+          width: 50%;
+        }
+      }
+      &__logoWrapper > input {
+        display: none;
+      }
     }
   }
 }
