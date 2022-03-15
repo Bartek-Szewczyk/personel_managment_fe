@@ -3,4 +3,27 @@
 .homeContainer {
   width: 100%;
   height: 100%;
+  .fc-day-today {
+    background-color: #9aabff7e !important;
+  }
+  .fc-button-primary {
+    background-color: $base-color !important;
+    border: none;
+    &:focus {
+      box-shadow: none !important;
+    }
+    &:hover {
+      background-color: $base-color-hover !important;
+    }
+  }
+  .fc-button-active {
+    background-color: $base-color-hover !important;
+    &:focus {
+      box-shadow: none !important;
+    }
+  }
+  .fc-v-event {
+    background-color: $base-color !important;
+    border: 1px solid $base-color !important;
+  }
 }
