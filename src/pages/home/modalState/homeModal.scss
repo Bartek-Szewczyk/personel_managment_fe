@@ -1,0 +1,87 @@
+@import "../../../theme/globalStyle.scss";
+
+.homeModalWrapper {
+  min-width: 600px;
+  display: flex;
+  flex-direction: column;
+  margin: 30px;
+  &__button {
+    width: 200px;
+    margin-top: 20px;
+    height: 54px;
+    background-color: $base-color;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    margin: 0 auto;
+  }
+  &__button:hover {
+    background-color: $base-color-hover;
+  }
+  &__input {
+    border: 0;
+    outline: 0;
+    border-bottom: 2px solid #9b9b9b;
+    transition: border-color 0.2s;
+    font-size: 18px;
+    background: transparent;
+    &:focus {
+      border-bottom: 3px solid $base-color;
+    }
+  }
+  &__checkboxContainer {
+    margin-top: 30px;
+  }
+  &__timeContainer {
+    display: flex;
+    width: calc(100% - 40px);
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: 50px;
+    margin-top: 30px;
+    &__column {
+    }
+  }
+  &__staffContainer {
+    display: flex;
+    width: calc(100% - 40px);
+    justify-content: space-around;
+    position: relative;
+    margin-bottom: 50px;
+  }
+  &__buttonContainer {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__option:hover {
+    background-color: $base-color;
+  }
+  &__error {
+    color: rgb(255, 0, 0);
+    font-weight: bold;
+    margin: 10px auto 0;
+  }
+  .number {
+    width: 80px;
+  }
+  .rdtActive {
+    background-color: $base-color !important;
+  }
+  .rdtToday:before {
+    border-bottom: 7px solid $base-color !important;
+  }
+  .rdtBtn {
+    color: $base-color !important;
+  }
+  .rdt input {
+    border: 0;
+    outline: 0;
+    border-bottom: 2px solid #9b9b9b;
+    transition: border-color 0.2s;
+    font-size: 18px;
+    background: transparent;
+    &:focus {
+      border-bottom: 3px solid $base-color;
+    }
+  }
+}
