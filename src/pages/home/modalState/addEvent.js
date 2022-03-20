@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { INITIAL_EVENTS, createEventId } from "../event-utils";
+import { createEventId } from "../event-utils";
 import Datetime from "react-datetime";
-import moment from "moment";
 import "moment/locale/pl";
 import "./homeModal.scss";
 import "react-datetime/css/react-datetime.css";
@@ -14,18 +13,27 @@ function AddEvent({ info, closeModal }) {
   const [error, setError] = useState(false);
   const [selected, setSelected] = useState("option1");
   const [number, setNumber] = useState(1);
-  const [selected1, setSelected1] = useState("option1");
-  const [number1, setNumber1] = useState(1);
-  const [selected2, setSelected2] = useState("option1");
-  const [number2, setNumber2] = useState(1);
-  const [selected3, setSelected3] = useState("option1");
-  const [number3, setNumber3] = useState(1);
 
   useEffect(() => {
     setAllDayEvents(info?.allDay);
     setStart(info?.startStr);
     setEnd(info?.endStr);
   }, [info]);
+  const setColor = (category) => {
+    switch (category) {
+      case "option1":
+        return "#74CCD3";
+      case "option2":
+        return "#9EC0ED";
+      case "option3":
+        return "#7D9DDD";
+      case "option4":
+        return "#6376C1";
+
+      default:
+        break;
+    }
+  };
 
   const buttonHandler = () => {
     let calendarApi = info.view.calendar;
@@ -40,6 +48,8 @@ function AddEvent({ info, closeModal }) {
         allDay: allDayEvents,
         category: selected,
         staffnumber: number,
+        backgroundColor: setColor(selected),
+        borderColor: setColor(selected),
       });
       closeModal();
     } else {
