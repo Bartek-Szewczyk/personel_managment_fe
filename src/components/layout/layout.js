@@ -1,7 +1,7 @@
 import React from "react";
 import "./layout.scss";
 
-function Layout({ title, buttonText, buttonAction }) {
+function Layout({ title, buttonText, buttonAction, children }) {
   const buttonHandler = () => buttonAction();
   return (
     <div className="layoutWrapper">
@@ -18,6 +18,7 @@ function Layout({ title, buttonText, buttonAction }) {
           </div>
         )}
       </div>
+      <div className="layoutWrapper__content">{children}</div>
     </div>
   );
 }
