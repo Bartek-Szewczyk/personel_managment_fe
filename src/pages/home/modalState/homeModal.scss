@@ -1,0 +1,139 @@
+@import "../../../theme/globalStyle.scss";
+
+.homeModalWrapper {
+  min-width: 600px;
+  display: flex;
+  flex-direction: column;
+  margin: 30px;
+  .row {
+    display: flex;
+    flex-direction: row;
+  }
+  &__button {
+    width: 200px;
+    margin-top: 20px;
+    height: 54px;
+    background-color: $base-color;
+    border: none;
+    border-radius: 3px;
+    color: #ffffff;
+    cursor: pointer;
+    margin: 0 auto;
+  }
+  &__button:hover {
+    background-color: $base-color-hover;
+  }
+  .delete {
+    background-color: #e4283f;
+    &:hover {
+      background-color: #ac1f30;
+    }
+  }
+
+  &__input {
+    border: 0;
+    outline: 0;
+    border-bottom: 2px solid #9b9b9b;
+    transition: border-color 0.2s;
+    font-size: 18px;
+    background: transparent;
+    &:focus {
+      border-bottom: 3px solid $base-color;
+    }
+  }
+  &__checkboxContainer {
+    margin-top: 30px;
+  }
+  &__timeContainer {
+    display: flex;
+    width: calc(100% - 40px);
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: 50px;
+    margin-top: 30px;
+    &__column {
+    }
+  }
+  &__staffContainer {
+    display: flex;
+    width: calc(100% - 40px);
+    justify-content: space-around;
+    position: relative;
+    margin-bottom: 50px;
+  }
+  &__buttonContainer {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__option:hover {
+    background-color: $base-color;
+  }
+  &__error {
+    color: rgb(255, 0, 0);
+    font-weight: bold;
+    margin: 10px auto 0;
+  }
+  &__applicationsWrapper {
+    margin-left: 20px;
+    &__container {
+      border-radius: 4px;
+      border: 2px solid $base-color;
+      min-width: 300px;
+      max-height: 75%;
+      overflow-y: auto;
+      &__singleapp {
+        border-radius: 4px;
+        margin: 15px;
+        padding: 15px;
+        background: #dddddd;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        &__buttonWrapper {
+          margin-left: 20px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        &__button {
+          border-radius: 3px;
+          background-color: $base-color;
+          border: none;
+          color: #ffffff;
+          cursor: pointer;
+          padding: 10px 20px;
+          &:hover {
+            background-color: $base-color-hover;
+          }
+        }
+        .accepted {
+          background-color: transparent;
+          color: $base-color;
+        }
+      }
+    }
+  }
+  .number {
+    width: 80px;
+  }
+  .rdtActive {
+    background-color: $base-color !important;
+  }
+  .rdtToday:before {
+    border-bottom: 7px solid $base-color !important;
+  }
+  .rdtBtn {
+    color: $base-color !important;
+  }
+  .rdt input {
+    border: 0;
+    outline: 0;
+    border-bottom: 2px solid #9b9b9b;
+    transition: border-color 0.2s;
+    font-size: 18px;
+    background: transparent;
+    &:focus {
+      border-bottom: 3px solid $base-color;
+    }
+  }
+}
