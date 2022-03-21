@@ -3,13 +3,62 @@
 .navigationContainer {
   padding-left: 20%;
   display: flex;
+
   &__navigation {
     height: 100vh;
     width: 20%;
     background-color: $base-color;
     left: 0;
-    position: absolute;
+    position: fixed;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    &__buttonContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      &__logoutBtn {
+        background: #ffffff;
+        color: $base-color;
+        border: none;
+        font-size: 20px;
+        font-family: "Comfortaa";
+        border-radius: 4px;
+        margin: 0 auto;
+        width: 100%;
+        padding: 15px;
+        cursor: pointer;
+        margin-bottom: 50px;
+      }
+    }
+
+    &__logoutBtn:hover {
+      background: #c1cbff;
+    }
+    &__linkContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      &__logoWrapper {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        &__label {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+        &__logo {
+          cursor: pointer;
+          border-radius: 50%;
+          width: 50%;
+        }
+      }
+      &__logoWrapper > input {
+        display: none;
+      }
+    }
   }
 }
