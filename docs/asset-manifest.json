@@ -1,13 +1,15 @@
 {
   "files": {
-    "main.css": "/personel_managment_fe/static/css/main.e95df76d.css",
-    "main.js": "/personel_managment_fe/static/js/main.0f46a27d.js",
+    "main.css": "/personel_managment_fe/static/css/main.d1c20f0b.css",
+    "main.js": "/personel_managment_fe/static/js/main.9e8f796f.js",
+    "static/media/exampleLogo.png": "/personel_managment_fe/static/media/exampleLogo.ef80408a26a2cd93c85a.png",
     "index.html": "/personel_managment_fe/index.html",
-    "main.e95df76d.css.map": "/personel_managment_fe/static/css/main.e95df76d.css.map",
-    "main.0f46a27d.js.map": "/personel_managment_fe/static/js/main.0f46a27d.js.map"
+    "static/media/LinkBg.svg": "/personel_managment_fe/static/media/LinkBg.2cdb037828cbaac3fe3f.svg",
+    "main.d1c20f0b.css.map": "/personel_managment_fe/static/css/main.d1c20f0b.css.map",
+    "main.9e8f796f.js.map": "/personel_managment_fe/static/js/main.9e8f796f.js.map"
   },
   "entrypoints": [
-    "static/css/main.e95df76d.css",
-    "static/js/main.0f46a27d.js"
+    "static/css/main.d1c20f0b.css",
+    "static/js/main.9e8f796f.js"
   ]
 }

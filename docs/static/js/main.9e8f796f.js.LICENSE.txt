@@ -4,6 +4,12 @@ object-assign
 @license MIT
 */
 
+/*!
+FullCalendar v5.10.1
+Docs & License: https://fullcalendar.io/
+(c) 2021 Adam Shaw
+*/
+
 /**
  * React Router DOM v6.2.2
  *
@@ -61,3 +67,7 @@ object-assign
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
+
+//! moment.js
+
+//! moment.js locale configuration
