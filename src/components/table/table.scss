@@ -1,0 +1,61 @@
+@import "../../theme/globalStyle.scss";
+
+.tableIcon {
+  position: absolute;
+  width: 20px;
+  padding-left: 10px;
+  height: 100%;
+  top: 0;
+}
+.searchSpan {
+  font-size: 20px;
+  margin-bottom: 20px;
+
+  &__input {
+    font-size: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    outline: 0;
+    padding: 7px;
+    border: 2px solid $base-color;
+    transition: border-color 0.2s;
+    background: transparent;
+    border-radius: 5px;
+    &:focus {
+      border: 2px solid $base-color-hover;
+      outline: 1px solid $base-color-hover;
+    }
+  }
+}
+.pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  button {
+    padding: 3px 6px;
+    margin-top: 20px;
+    background-color: $base-color;
+    border: none;
+    border-radius: 3px;
+    color: #ffffff;
+    cursor: pointer;
+    margin: 0 auto;
+  }
+  &__button:hover {
+    background-color: $base-color-hover;
+  }
+  .selectRange {
+    margin-left: 20px;
+    margin-bottom: 10px;
+    border: 0;
+    outline: 0;
+    padding: 5px;
+    border-bottom: 2px solid $base-color;
+    transition: border-color 0.2s;
+    background: transparent;
+    &:focus {
+      border-bottom: 3px solid $base-color-hover;
+    }
+  }
+}
