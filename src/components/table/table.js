@@ -189,7 +189,7 @@ function Table({ columns, data }) {
             >
               {[2, 5, 10, 20, 30].map((pageSize) => (
                 <option key={pageSize} value={pageSize}>
-                  Show {pageSize}
+                  Pokaż {pageSize}
                 </option>
               ))}
             </select>
