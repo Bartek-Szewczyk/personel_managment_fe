@@ -1,15 +1,17 @@
 {
   "files": {
-    "main.css": "/personel_managment_fe/static/css/main.d1c20f0b.css",
-    "main.js": "/personel_managment_fe/static/js/main.9e8f796f.js",
+    "main.css": "/personel_managment_fe/static/css/main.818884a3.css",
+    "main.js": "/personel_managment_fe/static/js/main.3fd41318.js",
     "static/media/exampleLogo.png": "/personel_managment_fe/static/media/exampleLogo.ef80408a26a2cd93c85a.png",
     "index.html": "/personel_managment_fe/index.html",
+    "static/media/downIcon.svg": "/personel_managment_fe/static/media/downIcon.308f5d759145df54710345fee01c9b5b.svg",
+    "static/media/upIcon.svg": "/personel_managment_fe/static/media/upIcon.e50136bd1f792069f2d1b5c19803292a.svg",
     "static/media/LinkBg.svg": "/personel_managment_fe/static/media/LinkBg.2cdb037828cbaac3fe3f.svg",
-    "main.d1c20f0b.css.map": "/personel_managment_fe/static/css/main.d1c20f0b.css.map",
-    "main.9e8f796f.js.map": "/personel_managment_fe/static/js/main.9e8f796f.js.map"
+    "main.818884a3.css.map": "/personel_managment_fe/static/css/main.818884a3.css.map",
+    "main.3fd41318.js.map": "/personel_managment_fe/static/js/main.3fd41318.js.map"
   },
   "entrypoints": [
-    "static/css/main.d1c20f0b.css",
-    "static/js/main.9e8f796f.js"
+    "static/css/main.818884a3.css",
+    "static/js/main.3fd41318.js"
   ]
 }
