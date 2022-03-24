@@ -1,24 +1,100 @@
-import React from "react";
+import React, { useState } from "react";
 import { Styles } from "./tableStyles.js";
-import { useTable, useSortBy } from "react-table";
+import {
+  useTable,
+  useSortBy,
+  useFilters,
+  useGlobalFilter,
+  useAsyncDebounce,
+} from "react-table";
 import downIcon from "../../assets/downIcon.svg";
 import upIcon from "../../assets/upIcon.svg";
-
+import { matchSorter } from "match-sorter";
 import "./table.scss";
 
+function GlobalFilter({
+  preGlobalFilteredRows,
+  globalFilter,
+  setGlobalFilter,
+}) {
+  const count = preGlobalFilteredRows.length;
+  const [value, setValue] = useState(globalFilter);
+  const onChange = useAsyncDebounce((value) => {
+    setGlobalFilter(value || undefined);
+  }, 200);
+
+  return (
+    <label className="searchSpan">
+      <input
+        value={value || ""}
+        onChange={(e) => {
+          setValue(e.target.value);
+          onChange(e.target.value);
+        }}
+        placeholder="Wyszukaj..."
+        className="searchSpan__input"
+      />
+    </label>
+  );
+}
+function fuzzyTextFilterFn(rows, id, filterValue) {
+  return matchSorter(rows, filterValue, { keys: [(row) => row.values[id]] });
+}
+
+// Let the table remove the filter if the string is empty
+fuzzyTextFilterFn.autoRemove = (val) => !val;
+
 function Table({ columns, data }) {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable(
-      {
-        columns,
-        data,
+  const filterTypes = React.useMemo(
+    () => ({
+      // Add a new fuzzyTextFilterFn filter type.
+      fuzzyText: fuzzyTextFilterFn,
+      // Or, override the default text filter to use
+      // "startWith"
+      text: (rows, id, filterValue) => {
+        return rows.filter((row) => {
+          const rowValue = row.values[id];
+          return rowValue !== undefined
+            ? String(rowValue)
+                .toLowerCase()
+                .startsWith(String(filterValue).toLowerCase())
+            : true;
+        });
       },
-      useSortBy
-    );
+    }),
+    []
+  );
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    state,
+    visibleColumns,
+    preGlobalFilteredRows,
+    setGlobalFilter,
+  } = useTable(
+    {
+      columns,
+      data,
+      filterTypes,
+    },
+
+    useFilters,
+    useGlobalFilter,
+    useSortBy
+  );
   const firstPageRows = rows.slice(0, 20);
   return (
     <>
       <Styles>
+        <GlobalFilter
+          preGlobalFilteredRows={preGlobalFilteredRows}
+          globalFilter={state.globalFilter}
+          setGlobalFilter={setGlobalFilter}
+        />
         <table {...getTableProps()}>
           <thead>
             {headerGroups.map((headerGroup) => (

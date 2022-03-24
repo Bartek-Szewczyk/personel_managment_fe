@@ -7,3 +7,23 @@
   height: 100%;
   top: 0;
 }
+.searchSpan {
+  font-size: 20px;
+  margin-bottom: 20px;
+
+  &__input {
+    font-size: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    outline: 0;
+    padding: 7px;
+    border: 2px solid $base-color;
+    transition: border-color 0.2s;
+    background: transparent;
+    border-radius: 5px;
+    &:focus {
+      border: 2px solid $base-color-hover;
+      outline: 1px solid $base-color-hover;
+    }
+  }
+}

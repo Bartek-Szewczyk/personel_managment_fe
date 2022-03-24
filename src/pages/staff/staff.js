@@ -23,7 +23,7 @@ const Staff = () => {
         Header: "Informacje",
         columns: [
           {
-            Header: "Kategoria",
+            Header: "Stanowisko",
             accessor: "category",
           },
           {
