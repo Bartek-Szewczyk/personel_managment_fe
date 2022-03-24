@@ -6,6 +6,7 @@ import {
   useFilters,
   useGlobalFilter,
   useAsyncDebounce,
+  usePagination,
 } from "react-table";
 import downIcon from "../../assets/downIcon.svg";
 import upIcon from "../../assets/upIcon.svg";
@@ -71,22 +72,33 @@ function Table({ columns, data }) {
     headerGroups,
     rows,
     prepareRow,
+    page,
     state,
     visibleColumns,
     preGlobalFilteredRows,
     setGlobalFilter,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
+    state: { pageIndex, pageSize },
   } = useTable(
     {
       columns,
       data,
       filterTypes,
+      initialState: { pageIndex: 0, pageSize: 10 },
     },
 
     useFilters,
     useGlobalFilter,
-    useSortBy
+    useSortBy,
+    usePagination
   );
-  const firstPageRows = rows.slice(0, 20);
   return (
     <>
       <Styles>
@@ -130,7 +142,7 @@ function Table({ columns, data }) {
             ))}
           </thead>
           <tbody {...getTableBodyProps()}>
-            {firstPageRows.map((row, i) => {
+            {page.map((row, i) => {
               prepareRow(row);
               return (
                 <tr {...row.getRowProps()}>
@@ -145,7 +157,44 @@ function Table({ columns, data }) {
           </tbody>
         </table>
         <br />
-        <div>Wyświetlanie pierwszych 20 wierszy z {rows.length} wierszy</div>
+        <div className="pagination">
+          <div>
+            <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+              {"<<"}
+            </button>{" "}
+            <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+              {"<"}
+            </button>{" "}
+            <span>
+              Page{" "}
+              <strong>
+                {pageIndex + 1} of {pageOptions.length}
+              </strong>{" "}
+            </span>
+            <button onClick={() => nextPage()} disabled={!canNextPage}>
+              {">"}
+            </button>{" "}
+            <button
+              onClick={() => gotoPage(pageCount - 1)}
+              disabled={!canNextPage}
+            >
+              {">>"}
+            </button>{" "}
+            <select
+              value={pageSize}
+              onChange={(e) => {
+                setPageSize(Number(e.target.value));
+              }}
+              className="selectRange"
+            >
+              {[2, 5, 10, 20, 30].map((pageSize) => (
+                <option key={pageSize} value={pageSize}>
+                  Show {pageSize}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
       </Styles>
     </>
   );

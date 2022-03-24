@@ -27,3 +27,35 @@
     }
   }
 }
+.pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  button {
+    padding: 3px 6px;
+    margin-top: 20px;
+    background-color: $base-color;
+    border: none;
+    border-radius: 3px;
+    color: #ffffff;
+    cursor: pointer;
+    margin: 0 auto;
+  }
+  &__button:hover {
+    background-color: $base-color-hover;
+  }
+  .selectRange {
+    margin-left: 20px;
+    margin-bottom: 10px;
+    border: 0;
+    outline: 0;
+    padding: 5px;
+    border-bottom: 2px solid $base-color;
+    transition: border-color 0.2s;
+    background: transparent;
+    &:focus {
+      border-bottom: 3px solid $base-color-hover;
+    }
+  }
+}
