@@ -166,9 +166,9 @@ function Table({ columns, data }) {
               {"<"}
             </button>{" "}
             <span>
-              Page{" "}
+              Strona{" "}
               <strong>
-                {pageIndex + 1} of {pageOptions.length}
+                {pageIndex + 1} z {pageOptions.length}
               </strong>{" "}
             </span>
             <button onClick={() => nextPage()} disabled={!canNextPage}>
