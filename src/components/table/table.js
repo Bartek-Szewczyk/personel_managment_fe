@@ -12,6 +12,8 @@ import downIcon from "../../assets/downIcon.svg";
 import upIcon from "../../assets/upIcon.svg";
 import { matchSorter } from "match-sorter";
 import "./table.scss";
+import Modal from "../modal/modal.js";
+import TableModal from "./tableModal/tableModal.js";
 
 function GlobalFilter({
   preGlobalFilteredRows,
@@ -42,16 +44,14 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
   return matchSorter(rows, filterValue, { keys: [(row) => row.values[id]] });
 }
 
-// Let the table remove the filter if the string is empty
 fuzzyTextFilterFn.autoRemove = (val) => !val;
 
 function Table({ columns, data }) {
+  const [modal, setModal] = useState(false);
+  const [currentUser, setCurrentUser] = useState();
   const filterTypes = React.useMemo(
     () => ({
-      // Add a new fuzzyTextFilterFn filter type.
       fuzzyText: fuzzyTextFilterFn,
-      // Or, override the default text filter to use
-      // "startWith"
       text: (rows, id, filterValue) => {
         return rows.filter((row) => {
           const rowValue = row.values[id];
@@ -74,7 +74,6 @@ function Table({ columns, data }) {
     prepareRow,
     page,
     state,
-    visibleColumns,
     preGlobalFilteredRows,
     setGlobalFilter,
     canPreviousPage,
@@ -99,8 +98,18 @@ function Table({ columns, data }) {
     useSortBy,
     usePagination
   );
+  const handleClose = () => {
+    setModal(false);
+  };
+
+  const handleOpen = () => {
+    setModal(true);
+  };
   return (
     <>
+      <Modal show={modal} handleClose={handleClose}>
+        <TableModal data={currentUser} />
+      </Modal>
       <Styles>
         <GlobalFilter
           preGlobalFilteredRows={preGlobalFilteredRows}
@@ -112,11 +121,8 @@ function Table({ columns, data }) {
             {headerGroups.map((headerGroup) => (
               <tr className="table__tr" {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
-                  // Add the sorting props to control sorting. For this example
-                  // we can add them into the header props
                   <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                     {column.render("Header")}
-                    {/* Add a sort direction indicator */}
                     <span>
                       {column.isSorted ? (
                         column.isSortedDesc ? (
@@ -145,7 +151,13 @@ function Table({ columns, data }) {
             {page.map((row, i) => {
               prepareRow(row);
               return (
-                <tr {...row.getRowProps()}>
+                <tr
+                  {...row.getRowProps()}
+                  onClick={(e) => {
+                    setCurrentUser(row.values);
+                    handleOpen();
+                  }}
+                >
                   {row.cells.map((cell) => {
                     return (
                       <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
@@ -189,7 +201,7 @@ function Table({ columns, data }) {
             >
               {[2, 5, 10, 20, 30].map((pageSize) => (
                 <option key={pageSize} value={pageSize}>
-                  Show {pageSize}
+                  Pokaż {pageSize}
                 </option>
               ))}
             </select>
