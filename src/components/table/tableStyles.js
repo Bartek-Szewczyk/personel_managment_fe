@@ -35,6 +35,9 @@ export const Styles = styled.div`
       }
     }
     tbody {
+      tr {
+        cursor: pointer;
+      }
       tr:nth-child(2n -1) {
         background: rgba(233, 228, 247, 0.6);
       }

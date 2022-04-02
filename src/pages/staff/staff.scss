@@ -3,4 +3,60 @@
 .staffWrapper {
   width: 100%;
   height: 100%;
+
+  .staffModal {
+    margin: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  &__inputWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    align-items: left;
+    margin-top: 20px;
+  }
+  &__categoryWrapper {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    align-items: left;
+    justify-content: space-around;
+    margin-top: 30px;
+  }
+  &__input {
+    border: 0;
+    outline: 0;
+    border-bottom: 2px solid #9b9b9b;
+    transition: border-color 0.2s;
+    font-size: 18px;
+    background: transparent;
+    &:focus {
+      border-bottom: 3px solid $base-color;
+    }
+  }
+  .singleColumn {
+    width: 30%;
+  }
+  &__error {
+    color: rgb(255, 0, 0);
+    font-weight: bold;
+    margin: 10px auto 0;
+  }
+  &__button {
+    width: 200px;
+    margin-top: 40px;
+    font-size: 20px;
+    height: 54px;
+    background-color: $base-color;
+    border: none;
+    border-radius: 3px;
+    color: #ffffff;
+    cursor: pointer;
+  }
+  &__button:hover {
+    background-color: $base-color-hover;
+  }
 }

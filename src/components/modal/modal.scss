@@ -19,10 +19,11 @@
     background: #fff;
     min-width: 100px;
     min-height: 100px;
+    border-radius: 5px;
     &__closeIcon {
       position: absolute;
-      right: 10px;
-      top: 10px;
+      right: 15px;
+      top: 15px;
       cursor: pointer;
       &:hover {
         fill: $base-color-hover;

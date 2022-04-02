@@ -1,0 +1,110 @@
+@import "../../../theme/globalStyle.scss";
+
+.tableModalWrapper {
+  margin: 30px;
+
+  &__gridWrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  &__inputWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    align-items: left;
+    padding: 20px;
+  }
+  &__input {
+    border: 0;
+    outline: 0;
+    border-bottom: 2px solid #9b9b9b;
+    transition: border-color 0.2s;
+    font-size: 18px;
+    background: transparent;
+    &:focus {
+      border-bottom: 3px solid $base-color;
+    }
+  }
+  &__buttonContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+  &__button {
+    width: 200px;
+
+    height: 54px;
+    background-color: $base-color;
+    border: none;
+    border-radius: 3px;
+    color: #ffffff;
+    cursor: pointer;
+    margin: 0 auto;
+    margin-top: 30px;
+    font-size: 18px;
+    &:hover {
+      background-color: $base-color-hover;
+    }
+    &.delete {
+      background-color: #e4283f;
+      &:hover {
+        background-color: #ac1f30;
+      }
+    }
+  }
+  &__reportWrapper {
+    margin-left: 20px;
+    &__container {
+      border-radius: 4px;
+      border: 2px solid $base-color;
+      min-width: 300px;
+      max-height: 50vh;
+      overflow-y: auto;
+      &__singleapp {
+        border-radius: 4px;
+        margin: 15px;
+        padding: 15px;
+        padding-top: 25px;
+        background: #dddddd;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        position: relative;
+        &__month {
+          position: absolute;
+          top: -5px;
+          left: 10px;
+          color: $base-color-hover;
+        }
+        &__amount {
+          font-weight: bold;
+        }
+        &__buttonWrapper {
+          margin-left: 20px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        &__button {
+          border-radius: 3px;
+          background-color: $base-color;
+          border: none;
+          color: #ffffff;
+          cursor: pointer;
+          padding: 10px 20px;
+          &:hover {
+            background-color: $base-color-hover;
+          }
+        }
+        .accepted {
+          background-color: transparent;
+          color: $base-color;
+        }
+      }
+    }
+  }
+}
