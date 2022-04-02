@@ -48,10 +48,7 @@ fuzzyTextFilterFn.autoRemove = (val) => !val;
 function Table({ columns, data }) {
   const filterTypes = React.useMemo(
     () => ({
-      // Add a new fuzzyTextFilterFn filter type.
       fuzzyText: fuzzyTextFilterFn,
-      // Or, override the default text filter to use
-      // "startWith"
       text: (rows, id, filterValue) => {
         return rows.filter((row) => {
           const rowValue = row.values[id];
@@ -74,7 +71,6 @@ function Table({ columns, data }) {
     prepareRow,
     page,
     state,
-    visibleColumns,
     preGlobalFilteredRows,
     setGlobalFilter,
     canPreviousPage,
