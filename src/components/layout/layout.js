@@ -1,25 +1,27 @@
 import React from "react";
-import "./layout.scss";
+import {
+  LayoutWrapper,
+  TitleContainer,
+  Title,
+  ButtonWrapper,
+  Button,
+  ContentContainer,
+} from "./styleLayout.js";
 
 function Layout({ title, buttonText, buttonAction, children }) {
   const buttonHandler = () => buttonAction();
   return (
-    <div className="layoutWrapper">
-      <div className="layoutWrapper__titleContainer">
-        <h1 className="layoutWrapper__titleContainer__title">{title}</h1>
+    <LayoutWrapper>
+      <TitleContainer>
+        <Title>{title}</Title>
         {buttonText && (
-          <div className="layoutWrapper__titleContainer__buttonWrapper">
-            <button
-              className="layoutWrapper__titleContainer__buttonWrapper__button"
-              onClick={buttonHandler}
-            >
-              {buttonText}
-            </button>
-          </div>
+          <ButtonWrapper>
+            <Button onClick={buttonHandler}>{buttonText}</Button>
+          </ButtonWrapper>
         )}
-      </div>
-      <div className="layoutWrapper__content">{children}</div>
-    </div>
+      </TitleContainer>
+      <ContentContainer>{children}</ContentContainer>
+    </LayoutWrapper>
   );
 }
 
