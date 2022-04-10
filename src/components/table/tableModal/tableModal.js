@@ -27,6 +27,8 @@ function TableModal({ data, closeHandler }) {
     if (confirmText === "Czy na pewno chcesz usunąć?") {
       setConfirm(false);
       closeHandler();
+    } else if (confirmText === "Czy potwierdzasz wypłacenie?") {
+      setConfirm(false);
     } else {
       closeHandler();
       setConfirm(false);
@@ -35,9 +37,15 @@ function TableModal({ data, closeHandler }) {
   const handleNo = () => {
     if (confirmText === "Czy na pewno chcesz usunąć?") {
       setConfirm(false);
+    } else if (confirmText === "Czy potwierdzasz wypłacenie?") {
+      setConfirm(false);
     } else {
       setConfirm(false);
     }
+  };
+  const payed = () => {
+    setConfirmText("Czy potwierdzasz wypłacenie?");
+    setConfirm(true);
   };
   return (
     <>
@@ -166,6 +174,9 @@ function TableModal({ data, closeHandler }) {
                         className={`tableModalWrapper__reportWrapper__container__singleapp__button ${
                           el.status ? "accepted" : ""
                         }`}
+                        onClick={() => {
+                          !el.status ? payed() : setConfirm(false);
+                        }}
                       >
                         {el.status ? "Wypłacone" : "Oczekuje"}
                       </button>
