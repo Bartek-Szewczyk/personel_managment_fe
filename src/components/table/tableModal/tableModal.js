@@ -24,13 +24,17 @@ function TableModal({ data, closeHandler }) {
     setConfirm(false);
   };
   const handleYes = () => {
-    setConfirm(false);
-    closeHandler();
+    if (confirmText === "Czy na pewno chcesz usunąć?") {
+      setConfirm(false);
+      closeHandler();
+    } else {
+      closeHandler();
+      setConfirm(false);
+    }
   };
   const handleNo = () => {
     if (confirmText === "Czy na pewno chcesz usunąć?") {
       setConfirm(false);
-      closeHandler();
     } else {
       setConfirm(false);
     }
