@@ -6,6 +6,7 @@ import "./staff.scss";
 
 const Staff = () => {
   const [modal, setModal] = useState(false);
+  const [confirm, setConfirm] = useState(false);
   const [name, setName] = useState();
   const [surname, setSurname] = useState();
   const [email, setEmail] = useState();
@@ -16,7 +17,9 @@ const Staff = () => {
   const handleClose = () => {
     setModal(false);
   };
-
+  const handleCloseConfirm = () => {
+    setConfirm(false);
+  };
   const handleOpen = () => {
     setModal(true);
   };
@@ -92,6 +95,7 @@ const Staff = () => {
   );
   return (
     <div className="staffWrapper">
+      <Modal show={confirm} handleClose={handleCloseConfirm} />
       <Modal show={modal} handleClose={handleClose}>
         <form className="staffModal">
           <h1>Dodaj nowego pracownika</h1>
