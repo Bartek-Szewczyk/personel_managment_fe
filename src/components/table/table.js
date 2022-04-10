@@ -108,7 +108,7 @@ function Table({ columns, data }) {
   return (
     <>
       <Modal show={modal} handleClose={handleClose}>
-        <TableModal data={currentUser} />
+        <TableModal data={currentUser} closeHandler={handleClose} />
       </Modal>
       <Styles>
         <GlobalFilter
