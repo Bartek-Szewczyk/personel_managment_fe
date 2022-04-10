@@ -37,7 +37,6 @@ function AddEvent({ info, closeModal }) {
 
   const buttonHandler = () => {
     let calendarApi = info.view.calendar;
-    console.log(info);
     calendarApi.unselect(); // clear date selection
     if (title) {
       calendarApi.addEvent({

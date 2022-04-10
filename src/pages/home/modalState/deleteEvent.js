@@ -16,7 +16,6 @@ function DeleteEvent({ info, deleteHandler, closeModal }) {
   const [selected, setSelected] = useState();
   const [number, setNumber] = useState();
   useEffect(() => {
-    console.log(info?.event);
     setTitle(info?.event.title);
     setAllDayEvents(info?.event.allDay);
     setStart(info?.event.startStr);
