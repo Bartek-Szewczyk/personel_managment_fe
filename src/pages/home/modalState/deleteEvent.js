@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Datetime from "react-datetime";
+import Confirm from "../../../components/confirm/confirm";
+import Modal from "../../../components/modal/modal";
 import "moment/locale/pl";
 import "./homeModal.scss";
 import "react-datetime/css/react-datetime.css";
 
 function DeleteEvent({ info, deleteHandler, closeModal }) {
+  const [confirm, setConfirm] = useState(false);
+  const [confirmText, setConfirmText] = useState("Na pewno zapisać zmiany?");
   const [title, setTitle] = useState();
   const [allDayEvents, setAllDayEvents] = useState();
   const [start, setStart] = useState();
@@ -56,8 +60,36 @@ function DeleteEvent({ info, deleteHandler, closeModal }) {
         break;
     }
   };
+  const handleCloseConfirm = () => {
+    setConfirm(false);
+  };
+  const handleYes = () => {
+    if (confirmText === "Czy na pewno chcesz usunąć?") {
+      setConfirm(false);
+      deleteHandler();
+      closeHandler();
+    } else {
+      setConfirm(false);
+      saveHandler();
+    }
+  };
+  const handleNo = () => {
+    if (confirmText === "Czy na pewno chcesz usunąć?") {
+      setConfirm(false);
+      closeHandler();
+    } else {
+      setConfirm(false);
+    }
+  };
   return (
     <div className="homeModalWrapper">
+      <Modal show={confirm} handleClose={handleCloseConfirm}>
+        <Confirm
+          title={confirmText}
+          yesButtonHandler={handleYes}
+          noButtonHandler={handleNo}
+        />
+      </Modal>
       <h1>Edytuj zmianę</h1>
       <div className="row">
         <div className="col">
@@ -153,12 +185,21 @@ function DeleteEvent({ info, deleteHandler, closeModal }) {
         </div>
       </div>
       <div className="homeModalWrapper__buttonContainer">
-        <button className="homeModalWrapper__button" onClick={saveHandler}>
+        <button
+          className="homeModalWrapper__button"
+          onClick={() => {
+            setConfirmText("Czy na pewno chcesz zapisać zmiany?");
+            setConfirm(true);
+          }}
+        >
           Zapisz
         </button>
         <button
           className="homeModalWrapper__button delete"
-          onClick={deleteHandler}
+          onClick={() => {
+            setConfirmText("Czy na pewno chcesz usunąć?");
+            setConfirm(true);
+          }}
         >
           Usuń
         </button>
