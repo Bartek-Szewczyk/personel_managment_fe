@@ -1,11 +1,12 @@
 import styled from "styled-components";
+import { color } from "../../theme/globalStyle";
 
 export const Styles = styled.div`
   padding: 10px;
 
   table {
     border-spacing: 0;
-    border: 4px solid #758bff;
+    border: 4px solid ${color.primary};
     width: 100%;
     padding: 10px;
     border-radius: 5px;
@@ -14,7 +15,7 @@ export const Styles = styled.div`
       th {
         position: relative;
         font-size: 20px;
-        border-bottom: 3px solid #758bff;
+        border-bottom: 3px solid ${color.primary};
       }
       :last-child {
         td {
@@ -27,7 +28,7 @@ export const Styles = styled.div`
     td {
       margin: 0;
       padding: 0.6rem;
-      border-bottom: 2px solid #758bff;
+      border-bottom: 2px solid ${color.primary};
       text-align: center;
 
       :last-child {

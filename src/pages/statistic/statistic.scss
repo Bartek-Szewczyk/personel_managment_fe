@@ -3,4 +3,20 @@
 .statisticWrapper {
   width: 100%;
   height: 100%;
+  &__chartWrapper {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  &__doughnutChart {
+    width: 30%;
+    position: relative;
+  }
+  &__barChart {
+    width: 50%;
+  }
+  &__lineChart {
+    width: 80%;
+    margin: 40px auto 0;
+  }
 }

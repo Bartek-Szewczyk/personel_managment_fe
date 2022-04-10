@@ -38,8 +38,8 @@ function Navigation() {
           </div>
 
           <CustomLink to="/personel_managment_fe">Kalendarz</CustomLink>
-          <CustomLink to="/statistic">Statystyki</CustomLink>
           <CustomLink to="/staff">Personel</CustomLink>
+          <CustomLink to="/statistic">Statystyki</CustomLink>
         </div>
         <div className="navigationContainer__navigation__buttonContainer">
           <Link to="/login" style={{ width: "80%" }}>

@@ -115,7 +115,7 @@ function TableModal({ data }) {
         <div className="tableModalWrapper__reportWrapper">
           <h2>Poprzednie miesiące</h2>
           <div className="tableModalWrapper__reportWrapper__container">
-            {oldReport.map((el) => {
+            {oldReport.map((el, index) => {
               return (
                 <div
                   kay={el.month}
@@ -138,6 +138,11 @@ function TableModal({ data }) {
                     >
                       {el.status ? "Wypłacone" : "Oczekuje"}
                     </button>
+                    {el.status && (
+                      <p className="tableModalWrapper__reportWrapper__container__singleapp__button__date">
+                        02.0{index + 1}.2022
+                      </p>
+                    )}
                   </div>
                 </div>
               );
