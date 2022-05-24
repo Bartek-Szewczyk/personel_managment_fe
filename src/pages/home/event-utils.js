@@ -1,17 +1,20 @@
+import { allEvents } from "../../services/callendarData";
 let eventGuid = 0;
 let todayStr = new Date().toISOString().replace(/T.*$/, ""); // YYYY-MM-DD of today
 
+const ev = allEvents();
+//export const INITIAL_EVENTS = allEvents;
 export const INITIAL_EVENTS = [
   {
-    id: createEventId(),
-    title: "All-day event",
-    start: todayStr,
-    end: todayStr + "T24:00:00",
-    allDay: true,
-    category: "option2",
-    staffnumber: 2,
-    backgroundColor: "#9EC0ED",
-    borderColor: "#9EC0ED",
+    id: ev[0]?.id,
+    title: ev[0]?.title,
+    start: ev[0]?.dateStart,
+    end: ev[0]?.dateEnd,
+    allDay: ev[0]?.allDay,
+    category: ev[0]?.category.name,
+    staffnumber: ev[0]?.staffnumber,
+    backgroundColor: ev[0]?.backgroundColor,
+    borderColor: ev[0]?.backgroundColor,
   },
   {
     id: createEventId(),

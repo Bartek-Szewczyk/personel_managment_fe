@@ -4,14 +4,15 @@ import Datetime from "react-datetime";
 import "moment/locale/pl";
 import "./homeModal.scss";
 import "react-datetime/css/react-datetime.css";
+import { addEvent } from "../../../services/callendarData";
 
 function AddEvent({ info, closeModal }) {
-  const [title, setTitle] = useState();
+  const [title, setTitle] = useState("");
   const [allDayEvents, setAllDayEvents] = useState();
   const [start, setStart] = useState();
   const [end, setEnd] = useState();
   const [error, setError] = useState(false);
-  const [selected, setSelected] = useState("option1");
+  const [selected, setSelected] = useState("Barman");
   const [number, setNumber] = useState(1);
 
   useEffect(() => {
@@ -21,14 +22,12 @@ function AddEvent({ info, closeModal }) {
   }, [info]);
   const setColor = (category) => {
     switch (category) {
-      case "option1":
-        return "#74CCD3";
-      case "option2":
-        return "#9EC0ED";
-      case "option3":
-        return "#7D9DDD";
-      case "option4":
-        return "#6376C1";
+      case "Barman":
+        return { color: "#74CCD3", name: "Barman", id: 1 };
+      case "Kelner":
+        return { color: "#9EC0ED", name: "Kelner", id: 2 };
+      case "Kucharz":
+        return { color: "#7D9DDD", name: "Kucharz", id: 3 };
 
       default:
         break;
@@ -39,16 +38,19 @@ function AddEvent({ info, closeModal }) {
     let calendarApi = info.view.calendar;
     calendarApi.unselect(); // clear date selection
     if (title) {
-      calendarApi.addEvent({
-        id: createEventId(),
+      const cat = setColor(selected);
+      console.log(cat);
+      addEvent({
         title: title,
-        start: start._d ? start._d : start,
-        end: end._d ? end._d : end,
+        dateStart: start._d ? start._d : start,
+        dateEnd: end._d ? end._d : end,
         allDay: allDayEvents,
-        category: selected,
-        staffnumber: number,
-        backgroundColor: setColor(selected),
-        borderColor: setColor(selected),
+        category: {
+          id: cat.id,
+          name: selected,
+        },
+        staffNumber: number,
+        backgroundColor: cat.color,
       });
       closeModal();
     } else {
@@ -60,24 +62,33 @@ function AddEvent({ info, closeModal }) {
     let arr = [];
     for (let index = 0; index < count; index++) {
       arr.push(
-        <div className="homeModalWrapper__staffContainer">
+        <div className="homeModalWrapper__staffContainer" key={"div" + count}>
           <select
             className="homeModalWrapper__input"
             value={selected}
             onChange={(e) => setSelected(e.target.value)}
+            key={"select" + count}
           >
-            <option className="homeModalWrapper__option" value="option1">
-              kategoria 1
+            <option
+              className="homeModalWrapper__option"
+              value="Barman"
+              key={"option1" + count}
+            >
+              Barman
             </option>
-            <option value="option2">kategoria 2</option>
-            <option value="option3">kategoria 3</option>
-            <option value="option4">kategoria 4</option>
+            <option value="Kelner" key={"option2" + count}>
+              Kelener
+            </option>
+            <option value="Kucharz" key={"option3" + count}>
+              Kucharz
+            </option>
           </select>
           <input
             className="homeModalWrapper__input number"
             type="number"
             value={number}
             onChange={(e) => setNumber(e.target.value)}
+            key={"number" + count}
           />
         </div>
       );
@@ -92,6 +103,7 @@ function AddEvent({ info, closeModal }) {
       <input
         className="homeModalWrapper__input"
         type="text"
+        value={title}
         onChange={(e) => {
           setTitle(e.target.value);
         }}
