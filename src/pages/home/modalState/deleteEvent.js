@@ -5,17 +5,20 @@ import Modal from "../../../components/modal/modal";
 import "moment/locale/pl";
 import "./homeModal.scss";
 import "react-datetime/css/react-datetime.css";
+import { editEvent } from "../../../services/callendarData";
 
 function DeleteEvent({ info, deleteHandler, closeModal }) {
   const [confirm, setConfirm] = useState(false);
   const [confirmText, setConfirmText] = useState("Na pewno zapisać zmiany?");
-  const [title, setTitle] = useState();
+  const [id, setId] = useState();
+  const [title, setTitle] = useState("");
   const [allDayEvents, setAllDayEvents] = useState();
   const [start, setStart] = useState();
   const [end, setEnd] = useState();
   const [selected, setSelected] = useState();
   const [number, setNumber] = useState();
   useEffect(() => {
+    setId(info?.event.id);
     setTitle(info?.event.title);
     setAllDayEvents(info?.event.allDay);
     setStart(info?.event.startStr);
@@ -25,16 +28,20 @@ function DeleteEvent({ info, deleteHandler, closeModal }) {
   }, [info]);
 
   const saveHandler = () => {
-    let calendarApi = info.view.calendar;
-    let event = calendarApi.getEventById(info?.event.id);
-    event.setProp("title", title);
-    event.setAllDay(allDayEvents);
-    event.setStart(start._d ? start._d : start);
-    event.setEnd(end._d ? end._d : end);
-    event.setExtendedProp("category", selected);
-    event.setExtendedProp("staffnumber", number);
-    event.setProp("backgroundColor", setColor(selected));
-    event.setProp("borderColor", setColor(selected));
+    const cat = setColor(selected);
+    editEvent({
+      id: id,
+      title: title,
+      dateStart: start._d ? start._d : start,
+      dateEnd: end._d ? end._d : end,
+      allDay: allDayEvents,
+      category: {
+        id: cat.id,
+        name: selected,
+      },
+      staffNumber: number,
+      backgroundColor: cat.color,
+    });
     closeModal();
   };
 
@@ -46,14 +53,12 @@ function DeleteEvent({ info, deleteHandler, closeModal }) {
   ];
   const setColor = (category) => {
     switch (category) {
-      case "option1":
-        return "#74CCD3";
-      case "option2":
-        return "#9EC0ED";
-      case "option3":
-        return "#7D9DDD";
-      case "option4":
-        return "#6376C1";
+      case "Barman":
+        return { color: "#74CCD3", name: "Barman", id: 1 };
+      case "Kelner":
+        return { color: "#9EC0ED", name: "Kelner", id: 2 };
+      case "Kucharz":
+        return { color: "#7D9DDD", name: "Kucharz", id: 3 };
 
       default:
         break;
@@ -140,12 +145,11 @@ function DeleteEvent({ info, deleteHandler, closeModal }) {
               value={selected}
               onChange={(e) => setSelected(e.target.value)}
             >
-              <option className="homeModalWrapper__option" value="option1">
-                kategoria 1
+              <option className="homeModalWrapper__option" value="Barman">
+                Barman
               </option>
-              <option value="option2">kategoria 2</option>
-              <option value="option3">kategoria 3</option>
-              <option value="option4">kategoria 4</option>
+              <option value="Kelner">Kelener</option>
+              <option value="Kucharz">Kucharz</option>
             </select>
             <input
               className="homeModalWrapper__input number"
@@ -162,17 +166,21 @@ function DeleteEvent({ info, deleteHandler, closeModal }) {
             {staff.map((el) => {
               return (
                 <div
-                  kay={el.surname}
+                  key={el.surname}
                   className="homeModalWrapper__applicationsWrapper__container__singleapp"
                 >
-                  <p>
+                  <p key={el.surname + "p"}>
                     {el.name} {el.surname}
                   </p>
-                  <div className="homeModalWrapper__applicationsWrapper__container__singleapp__buttonWrapper">
+                  <div
+                    className="homeModalWrapper__applicationsWrapper__container__singleapp__buttonWrapper"
+                    key={el.surname + "div"}
+                  >
                     <button
                       className={`homeModalWrapper__applicationsWrapper__container__singleapp__button ${
                         el.status ? "accepted" : ""
                       }`}
+                      key={el.surname + "button"}
                     >
                       {el.status ? "Zatwierdzony" : "Akceptuj"}
                     </button>
