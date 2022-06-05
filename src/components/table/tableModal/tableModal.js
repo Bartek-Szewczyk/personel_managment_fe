@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import Modal from "../../modal/modal";
 import Confirm from "../../confirm/confirm";
 import "./tableModal.scss";
+import { deleteUser } from "../../../services/usersData";
 
-function TableModal({ data, closeHandler }) {
+function TableModal({ data, closeHandler, reload }) {
   const [confirm, setConfirm] = useState(false);
   const [confirmText, setConfirmText] = useState("Na pewno zapisać zminay?");
   const [name, setName] = useState(data.firstName);
@@ -25,6 +26,7 @@ function TableModal({ data, closeHandler }) {
   };
   const handleYes = () => {
     if (confirmText === "Czy na pewno chcesz usunąć?") {
+      deleteHandler();
       setConfirm(false);
       closeHandler();
     } else if (confirmText === "Czy potwierdzasz wypłacenie?") {
@@ -46,6 +48,11 @@ function TableModal({ data, closeHandler }) {
   const payed = () => {
     setConfirmText("Czy potwierdzasz wypłacenie?");
     setConfirm(true);
+  };
+  const deleteHandler = () => {
+    deleteUser(data.id).then(() => {
+      reload();
+    });
   };
   return (
     <>

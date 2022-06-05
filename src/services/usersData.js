@@ -19,3 +19,11 @@ export const addUser = async (user) => {
     throw new Error(e.message);
   }
 };
+
+export const deleteUser = async (id) => {
+  try {
+    await axios.delete(baseUrl + "/" + id);
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};

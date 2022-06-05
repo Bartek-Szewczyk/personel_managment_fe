@@ -46,7 +46,7 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
 
 fuzzyTextFilterFn.autoRemove = (val) => !val;
 
-function Table({ columns, data }) {
+function Table({ columns, data, reload }) {
   const [modal, setModal] = useState(false);
   const [currentUser, setCurrentUser] = useState();
   const filterTypes = React.useMemo(
@@ -108,7 +108,13 @@ function Table({ columns, data }) {
   return (
     <>
       <Modal show={modal} handleClose={handleClose}>
-        <TableModal data={currentUser} closeHandler={handleClose} />
+        <TableModal
+          data={currentUser}
+          closeHandler={handleClose}
+          reload={() => {
+            reload();
+          }}
+        />
       </Modal>
       <Styles>
         <GlobalFilter
@@ -154,7 +160,7 @@ function Table({ columns, data }) {
                 <tr
                   {...row.getRowProps()}
                   onClick={(e) => {
-                    setCurrentUser(row.values);
+                    setCurrentUser(row.original);
                     handleOpen();
                   }}
                 >

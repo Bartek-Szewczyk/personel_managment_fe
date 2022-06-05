@@ -65,6 +65,7 @@ const Staff = () => {
   const parseUser = (userArr) => {
     return userArr.map((user) => {
       return {
+        id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
         category: user.category.name,
@@ -94,8 +95,8 @@ const Staff = () => {
     }
   };
 
-  const newUser = () => {
-    addUser({
+  const newUser = async () => {
+    await addUser({
       firstName: name,
       lastName: surname,
       email: email,
@@ -105,9 +106,11 @@ const Staff = () => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    newUser();
+    newUser().then(() => {
+      fetchData();
+    });
+
     handleClose();
-    fetchData();
   };
   useEffect(() => {
     fetchData();
@@ -203,7 +206,13 @@ const Staff = () => {
         buttonText="Dodaj pracownika"
         buttonAction={handleOpen}
       >
-        <Table columns={columns} data={data} />
+        <Table
+          columns={columns}
+          data={data}
+          reload={() => {
+            fetchData();
+          }}
+        />
       </Layout>
     </div>
   );
