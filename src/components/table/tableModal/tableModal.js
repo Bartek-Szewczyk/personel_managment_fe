@@ -1,20 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "../../modal/modal";
 import Confirm from "../../confirm/confirm";
 import "./tableModal.scss";
-import { deleteUser } from "../../../services/usersData";
+import { deleteUser, editUser, getUserById } from "../../../services/usersData";
 
 function TableModal({ data, closeHandler, reload }) {
   const [confirm, setConfirm] = useState(false);
   const [confirmText, setConfirmText] = useState("Na pewno zapisać zminay?");
-  const [name, setName] = useState(data.firstName);
-  const [surname, setSurname] = useState(data.lastName);
-  const [email, setEmail] = useState(`${name}.${surname.charAt(0)}@mail.com`);
-  const [phoneNumber, setPhoneNumber] = useState(823612394);
-  const [selected, setSelected] = useState(data.category);
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [selected, setSelected] = useState("");
   const [number, setNumber] = useState(1);
   const [hours, setHours] = useState(data.hours);
   const [count, setCount] = useState(data.count);
+
+  const fetchData = async () => {
+    const res = await getUserById(data.id);
+    setName(res.firstName);
+    setSurname(res.lastName);
+    setEmail(res.email);
+    setPhoneNumber(res.phone);
+    setSelected(res.category.name);
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const oldReport = [
     { month: "Styczeń", hours: 154, amount: 3388, status: true },
@@ -31,7 +43,8 @@ function TableModal({ data, closeHandler, reload }) {
       closeHandler();
     } else if (confirmText === "Czy potwierdzasz wypłacenie?") {
       setConfirm(false);
-    } else {
+    } else if (confirmText === "Czy na pewno chcesz zapisać zmiany?") {
+      editHandler();
       closeHandler();
       setConfirm(false);
     }
@@ -51,6 +64,31 @@ function TableModal({ data, closeHandler, reload }) {
   };
   const deleteHandler = () => {
     deleteUser(data.id).then(() => {
+      reload();
+    });
+  };
+  const getCategory = (category) => {
+    switch (category) {
+      case "Barman":
+        return { name: "Barman", id: 1 };
+      case "Kelner":
+        return { name: "Kelner", id: 2 };
+      case "Kucharz":
+        return { name: "Kucharz", id: 3 };
+      default:
+        break;
+    }
+  };
+  const editHandler = () => {
+    const user = {
+      id: data.id,
+      firstName: name,
+      lastName: surname,
+      email: email,
+      phone: phoneNumber,
+      category: getCategory(selected),
+    };
+    editUser(user).then(() => {
       reload();
     });
   };
@@ -144,8 +182,7 @@ function TableModal({ data, closeHandler, reload }) {
                   Barman
                 </option>
                 <option value="Kelner">Kelner</option>
-                <option value="Kelnerka">Kelnerka</option>
-                <option value="Kucharka">Kucharka</option>
+                <option value="Kucharz">Kucharz</option>
               </select>
             </div>
             <div className="tableModalWrapper__inputWrapper ">
@@ -164,19 +201,31 @@ function TableModal({ data, closeHandler, reload }) {
               {oldReport.map((el, index) => {
                 return (
                   <div
-                    kay={el.month}
+                    key={el.month + index}
                     className="tableModalWrapper__reportWrapper__container__singleapp"
                   >
-                    <p className="tableModalWrapper__reportWrapper__container__singleapp__month">
+                    <p
+                      className="tableModalWrapper__reportWrapper__container__singleapp__month"
+                      key={el.month}
+                    >
                       {el.month}
                     </p>
-                    <p className="tableModalWrapper__reportWrapper__container__singleapp__hours">
+                    <p
+                      className="tableModalWrapper__reportWrapper__container__singleapp__hours"
+                      key={el.hours}
+                    >
                       {el.hours} godz.
                     </p>
-                    <p className="tableModalWrapper__reportWrapper__container__singleapp__amount">
+                    <p
+                      className="tableModalWrapper__reportWrapper__container__singleapp__amount"
+                      key={el.amount}
+                    >
                       {el.amount} zł
                     </p>
-                    <div className="tableModalWrapper__reportWrapper__container__singleapp__buttonWrapper">
+                    <div
+                      className="tableModalWrapper__reportWrapper__container__singleapp__buttonWrapper"
+                      key={el.status + "div"}
+                    >
                       <button
                         className={`tableModalWrapper__reportWrapper__container__singleapp__button ${
                           el.status ? "accepted" : ""
@@ -184,11 +233,15 @@ function TableModal({ data, closeHandler, reload }) {
                         onClick={() => {
                           !el.status ? payed() : setConfirm(false);
                         }}
+                        key={el.status + "button"}
                       >
                         {el.status ? "Wypłacone" : "Oczekuje"}
                       </button>
                       {el.status && (
-                        <p className="tableModalWrapper__reportWrapper__container__singleapp__button__date">
+                        <p
+                          className="tableModalWrapper__reportWrapper__container__singleapp__button__date"
+                          key={el.status + "p"}
+                        >
                           02.0{index + 1}.2022
                         </p>
                       )}

@@ -77,7 +77,6 @@ const Staff = () => {
 
   const fetchData = async () => {
     const data = await allUsers();
-    console.log(data);
     const parsedData = parseUser(data);
     setData(parsedData);
   };

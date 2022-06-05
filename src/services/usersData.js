@@ -27,3 +27,22 @@ export const deleteUser = async (id) => {
     throw new Error(e.message);
   }
 };
+
+export const editUser = async (user) => {
+  try {
+    await axios.put(baseUrl + "/" + user.id, user);
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
+
+export const getUserById = async (id) => {
+  let response;
+
+  try {
+    response = await axios.get(baseUrl + "/" + id);
+  } catch (e) {
+    throw new Error(e.message);
+  }
+  return response?.data ? response?.data : null;
+};
