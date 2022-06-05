@@ -11,3 +11,11 @@ export const allUsers = async () => {
   }
   return response?.data ? response?.data : null;
 };
+
+export const addUser = async (user) => {
+  try {
+    await axios.post(baseUrl, user);
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};

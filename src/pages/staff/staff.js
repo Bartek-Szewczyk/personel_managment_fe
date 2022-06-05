@@ -3,7 +3,7 @@ import Layout from "../../components/layout/layout";
 import Table from "../../components/table/table";
 import Modal from "../../components/modal/modal";
 import "./staff.scss";
-import { allUsers } from "../../services/usersData";
+import { addUser, allUsers } from "../../services/usersData";
 
 const Staff = () => {
   const [modal, setModal] = useState(false);
@@ -11,7 +11,8 @@ const Staff = () => {
   const [name, setName] = useState();
   const [surname, setSurname] = useState();
   const [email, setEmail] = useState();
-  const [selected, setSelected] = useState("option1");
+  const [phone, setPhone] = useState();
+  const [selected, setSelected] = useState("Barman");
   const [number, setNumber] = useState(1);
   const [error, setError] = useState(false);
   const [data, setData] = useState([]);
@@ -79,48 +80,44 @@ const Staff = () => {
     const parsedData = parseUser(data);
     setData(parsedData);
   };
+
+  const getCategory = (category) => {
+    switch (category) {
+      case "Barman":
+        return { name: "Barman", id: 1 };
+      case "Kelner":
+        return { name: "Kelner", id: 2 };
+      case "Kucharz":
+        return { name: "Kucharz", id: 3 };
+      default:
+        break;
+    }
+  };
+
+  const newUser = () => {
+    addUser({
+      firstName: name,
+      lastName: surname,
+      email: email,
+      phone: phone,
+      category: getCategory(selected),
+    });
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    newUser();
+    handleClose();
+    fetchData();
+  };
   useEffect(() => {
     fetchData();
   }, []);
 
-  // const data = useMemo(
-  //   () => [
-  //     {
-  //       firstName: "Alek",
-  //       lastName: "Sobczak",
-  //       category: "Kelner",
-  //       hours: "97",
-  //       count: "12",
-  //     },
-  //     {
-  //       firstName: "Piotr",
-  //       lastName: "Sokołowski",
-  //       category: "Barman",
-  //       hours: "103",
-  //       count: "15",
-  //     },
-  //     {
-  //       firstName: "Aleksandra",
-  //       lastName: "Michalak",
-  //       category: "Kelnerka",
-  //       hours: "135",
-  //       count: "17",
-  //     },
-  //     {
-  //       firstName: "Elena",
-  //       lastName: "Kubiak",
-  //       category: "Kucharka",
-  //       hours: "142",
-  //       count: "19",
-  //     },
-  //   ],
-  //   []
-  // );
   return (
     <div className="staffWrapper">
       <Modal show={confirm} handleClose={handleCloseConfirm} />
       <Modal show={modal} handleClose={handleClose}>
-        <form className="staffModal">
+        <form className="staffModal" onSubmit={handleSubmit}>
           <h1>Dodaj nowego pracownika</h1>
           <div className="staffWrapper__inputWrapper">
             <h3>Imię</h3>
@@ -155,6 +152,17 @@ const Staff = () => {
               required
             />
           </div>
+          <div className="staffWrapper__inputWrapper">
+            <h3>Phone</h3>
+            <input
+              className="staffWrapper__input"
+              type="tel"
+              onChange={(e) => {
+                setPhone(e.target.value);
+              }}
+              required
+            />
+          </div>
           <div className="staffWrapper__categoryWrapper">
             <div className="staffWrapper__inputWrapper singleColumn">
               <h3>Kategoria pracownika</h3>
@@ -163,12 +171,11 @@ const Staff = () => {
                 value={selected}
                 onChange={(e) => setSelected(e.target.value)}
               >
-                <option className="homeModalWrapper__option" value="option1">
-                  kategoria 1
+                <option className="homeModalWrapper__option" value="Barman">
+                  Barman
                 </option>
-                <option value="option2">kategoria 2</option>
-                <option value="option3">kategoria 3</option>
-                <option value="option4">kategoria 4</option>
+                <option value="Kelner">Kelner</option>
+                <option value="Kucharz">Kucharz</option>
               </select>
             </div>
             <div className="staffWrapper__inputWrapper singleColumn">
