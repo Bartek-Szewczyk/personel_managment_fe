@@ -42,7 +42,7 @@ function Home() {
     setEvents(convertData(evs));
   };
   useEffect(() => {
-    setInterval(fetchData, 2000);
+    fetchData();
   }, []);
   const handleDateSelect = (selectInfo) => {
     setModal(true);
@@ -56,19 +56,26 @@ function Home() {
     setDeletedEv(clickInfo);
   };
   const deleteHandler = () => {
-    deletedEvent(deletedEv.event.id);
+    deletedEvent(deletedEv.event.id).then(() => {
+      fetchData();
+    });
     setModal(false);
   };
   return (
     <div className="homeContainer">
       <Modal show={modal} handleClose={handleClose}>
         {modalState === "add" ? (
-          <AddEvent info={selectedInfo} closeModal={handleClose} />
+          <AddEvent
+            info={selectedInfo}
+            closeModal={handleClose}
+            reload={() => fetchData()}
+          />
         ) : (
           <Delete
             info={deletedEv}
             deleteHandler={deleteHandler}
             closeModal={handleClose}
+            reload={() => fetchData()}
           />
         )}
       </Modal>

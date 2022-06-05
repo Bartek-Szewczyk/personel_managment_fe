@@ -7,7 +7,7 @@ import "./homeModal.scss";
 import "react-datetime/css/react-datetime.css";
 import { editEvent } from "../../../services/callendarData";
 
-function DeleteEvent({ info, deleteHandler, closeModal }) {
+function DeleteEvent({ info, deleteHandler, closeModal, reload }) {
   const [confirm, setConfirm] = useState(false);
   const [confirmText, setConfirmText] = useState("Na pewno zapisać zmiany?");
   const [id, setId] = useState();
@@ -41,7 +41,7 @@ function DeleteEvent({ info, deleteHandler, closeModal }) {
       },
       staffNumber: number,
       backgroundColor: cat.color,
-    });
+    }).then(() => reload());
     closeModal();
   };
 
@@ -71,7 +71,7 @@ function DeleteEvent({ info, deleteHandler, closeModal }) {
     if (confirmText === "Czy na pewno chcesz usunąć?") {
       setConfirm(false);
       deleteHandler();
-      closeHandler();
+      closeModal();
     } else {
       setConfirm(false);
       saveHandler();
@@ -80,7 +80,7 @@ function DeleteEvent({ info, deleteHandler, closeModal }) {
   const handleNo = () => {
     if (confirmText === "Czy na pewno chcesz usunąć?") {
       setConfirm(false);
-      closeHandler();
+      closeModal();
     } else {
       setConfirm(false);
     }

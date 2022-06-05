@@ -6,7 +6,7 @@ import "./homeModal.scss";
 import "react-datetime/css/react-datetime.css";
 import { addEvent } from "../../../services/callendarData";
 
-function AddEvent({ info, closeModal }) {
+function AddEvent({ info, closeModal, reload }) {
   const [title, setTitle] = useState("");
   const [allDayEvents, setAllDayEvents] = useState();
   const [start, setStart] = useState();
@@ -50,6 +50,8 @@ function AddEvent({ info, closeModal }) {
         },
         staffNumber: number,
         backgroundColor: cat.color,
+      }).then(() => {
+        reload();
       });
       closeModal();
     } else {
