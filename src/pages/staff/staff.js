@@ -1,8 +1,9 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import Layout from "../../components/layout/layout";
 import Table from "../../components/table/table";
 import Modal from "../../components/modal/modal";
 import "./staff.scss";
+import { allUsers } from "../../services/usersData";
 
 const Staff = () => {
   const [modal, setModal] = useState(false);
@@ -13,6 +14,7 @@ const Staff = () => {
   const [selected, setSelected] = useState("option1");
   const [number, setNumber] = useState(1);
   const [error, setError] = useState(false);
+  const [data, setData] = useState([]);
 
   const handleClose = () => {
     setModal(false);
@@ -59,40 +61,61 @@ const Staff = () => {
     ],
     []
   );
-
-  const data = useMemo(
-    () => [
-      {
-        firstName: "Alek",
-        lastName: "Sobczak",
-        category: "Kelner",
+  const parseUser = (userArr) => {
+    return userArr.map((user) => {
+      return {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        category: user.category.name,
         hours: "97",
         count: "12",
-      },
-      {
-        firstName: "Piotr",
-        lastName: "Sokołowski",
-        category: "Barman",
-        hours: "103",
-        count: "15",
-      },
-      {
-        firstName: "Aleksandra",
-        lastName: "Michalak",
-        category: "Kelnerka",
-        hours: "135",
-        count: "17",
-      },
-      {
-        firstName: "Elena",
-        lastName: "Kubiak",
-        category: "Kucharka",
-        hours: "142",
-        count: "19",
-      },
-    ],
-    []
-  );
+      };
+    });
+  };
+
+  const fetchData = async () => {
+    const data = await allUsers();
+    console.log(data);
+    const parsedData = parseUser(data);
+    setData(parsedData);
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  // const data = useMemo(
+  //   () => [
+  //     {
+  //       firstName: "Alek",
+  //       lastName: "Sobczak",
+  //       category: "Kelner",
+  //       hours: "97",
+  //       count: "12",
+  //     },
+  //     {
+  //       firstName: "Piotr",
+  //       lastName: "Sokołowski",
+  //       category: "Barman",
+  //       hours: "103",
+  //       count: "15",
+  //     },
+  //     {
+  //       firstName: "Aleksandra",
+  //       lastName: "Michalak",
+  //       category: "Kelnerka",
+  //       hours: "135",
+  //       count: "17",
+  //     },
+  //     {
+  //       firstName: "Elena",
+  //       lastName: "Kubiak",
+  //       category: "Kucharka",
+  //       hours: "142",
+  //       count: "19",
+  //     },
+  //   ],
+  //   []
+  // );
   return (
     <div className="staffWrapper">
       <Modal show={confirm} handleClose={handleCloseConfirm} />

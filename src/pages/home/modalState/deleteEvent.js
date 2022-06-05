@@ -148,7 +148,7 @@ function DeleteEvent({ info, deleteHandler, closeModal }) {
               <option className="homeModalWrapper__option" value="Barman">
                 Barman
               </option>
-              <option value="Kelner">Kelener</option>
+              <option value="Kelner">Kelner</option>
               <option value="Kucharz">Kucharz</option>
             </select>
             <input

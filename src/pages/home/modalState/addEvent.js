@@ -39,7 +39,6 @@ function AddEvent({ info, closeModal }) {
     calendarApi.unselect(); // clear date selection
     if (title) {
       const cat = setColor(selected);
-      console.log(cat);
       addEvent({
         title: title,
         dateStart: start._d ? start._d : start,
