@@ -11,7 +11,6 @@ const Statistic = () => {
   const fetchData = async () => {
     const response = await getDashboardData();
     setData(response);
-    console.log(response);
   };
   useEffect(() => {
     fetchData();
@@ -60,6 +59,26 @@ const Statistic = () => {
       },
     ],
   };
+
+  const lineChartData = {
+    labels: data?.eventCount.map((el) => el.month),
+    datasets: [
+      {
+        label: "Ilość pracowników",
+        data: data?.personnelByMonth.map((el) => el.costValue),
+        borderColor: "rgba(75, 192, 192, 0.5)",
+        backgroundColor: "rgba(75, 192, 192, 0.5)",
+        tension: 0.2,
+      },
+      {
+        label: "Ilość eventów",
+        data: data?.eventCount.map((el) => el.costValue),
+        borderColor: "rgb(53, 162, 235, 0.5)",
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
+        tension: 0.2,
+      },
+    ],
+  };
   return (
     <div className="statisticWrapper">
       <Layout title="Statystyki">
@@ -72,7 +91,9 @@ const Statistic = () => {
           </div>
         </div>
         <div className="statisticWrapper__lineChart">
-          <LineChart />
+          {data?.eventCount && data?.personnelByMonth && (
+            <LineChart data={lineChartData} />
+          )}
         </div>
       </Layout>
     </div>

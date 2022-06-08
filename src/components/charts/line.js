@@ -40,37 +40,7 @@ const options = {
   },
 };
 
-const labels = [
-  "Styczeń",
-  "Luty",
-  "Marzec",
-  "Kwiecień",
-  "Maj",
-  "Czerwiec",
-  "Lipiec",
-];
-
-const data = {
-  labels,
-  datasets: [
-    {
-      label: "Ilość pracowników",
-      data: labels.map(() => faker.datatype.number({ min: 20, max: 35 })),
-      borderColor: "rgba(75, 192, 192, 0.5)",
-      backgroundColor: "rgba(75, 192, 192, 0.5)",
-      tension: 0.2,
-    },
-    {
-      label: "Ilość eventów",
-      data: labels.map(() => faker.datatype.number({ min: 8, max: 15 })),
-      borderColor: "rgb(53, 162, 235, 0.5)",
-      backgroundColor: "rgba(53, 162, 235, 0.5)",
-      tension: 0.2,
-    },
-  ],
-};
-
-const LineChart = () => {
+const LineChart = ({ data }) => {
   return <Line options={options} data={data} />;
 };
 export default LineChart;
