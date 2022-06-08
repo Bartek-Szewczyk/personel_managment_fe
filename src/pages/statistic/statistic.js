@@ -46,6 +46,20 @@ const Statistic = () => {
       },
     ],
   };
+  const pieChartData = {
+    labels: data?.personnelCount.map((el) => el.name),
+    datasets: [
+      {
+        data: data?.personnelCount.map((el) => el.count),
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(54, 162, 235, 0.2)",
+          "rgba(255, 206, 86, 0.2)",
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
   return (
     <div className="statisticWrapper">
       <Layout title="Statystyki">
@@ -54,7 +68,7 @@ const Statistic = () => {
             {data?.costList && <BarChart data={barChartData} />}
           </div>
           <div className="statisticWrapper__doughnutChart">
-            <PieChart />
+            {data?.personnelCount && <PieChart data={pieChartData} />}
           </div>
         </div>
         <div className="statisticWrapper__lineChart">
