@@ -9,7 +9,6 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import { faker } from "@faker-js/faker";
 
 ChartJS.register(
   CategoryScale,
@@ -48,27 +47,7 @@ const options = {
   },
 };
 
-const labels = [
-  "Styczeń",
-  "Luty",
-  "Marzec",
-  "Kwiecień",
-  "Maj",
-  "Czerwiec",
-  "Lipiec",
-];
-
-const data = {
-  labels,
-  datasets: [
-    {
-      data: labels.map(() => faker.datatype.number({ min: 65000, max: 90000 })),
-      backgroundColor: "rgba(117, 139, 255, 0.5)",
-    },
-  ],
-};
-
-const BarChart = () => {
+const BarChart = ({ data }) => {
   return <Bar options={options} data={data} />;
 };
 export default BarChart;
