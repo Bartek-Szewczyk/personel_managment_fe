@@ -61,7 +61,7 @@ const Statistic = () => {
   };
 
   const lineChartData = {
-    labels: data?.eventCount.map((el) => el.month),
+    labels: parseLabel(data?.eventCount),
     datasets: [
       {
         label: "Ilość pracowników",
