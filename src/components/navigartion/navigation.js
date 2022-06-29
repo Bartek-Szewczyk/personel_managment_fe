@@ -3,8 +3,10 @@ import { Outlet, Link } from "react-router-dom";
 import CustomLink from "../customLink/customLink";
 import ExampleLogo from "../../assets/exampleLogo.png";
 import "./navigartion.scss";
+import useAuth from "../../services/auth/hooks";
 
 function Navigation() {
+  const { onLogout } = useAuth();
   const [logo, setLogo] = useState(ExampleLogo);
   const onChangeHandler = (e) => {
     const file = e.target.files[0];
@@ -43,7 +45,10 @@ function Navigation() {
         </div>
         <div className="navigationContainer__navigation__buttonContainer">
           <Link to="/login" style={{ width: "80%" }}>
-            <button className="navigationContainer__navigation__buttonContainer__logoutBtn">
+            <button
+              onClick={onLogout}
+              className="navigationContainer__navigation__buttonContainer__logoutBtn"
+            >
               Wyloguj
             </button>
           </Link>

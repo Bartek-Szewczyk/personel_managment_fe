@@ -1,13 +1,21 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import "./login.scss";
+import useAuth from "../../services/auth/hooks";
 
 function Login() {
+  const { onLogin, roles, noAuth } = useAuth();
   const [fields, setFields] = useState({ email: "", password: "" });
   const [reset, setReset] = useState(false);
+  const submit = (e) => {
+    console.log(fields);
+    onLogin(fields.email, fields.password);
+  };
+  const isAdmin = roles?.indexOf("Admin") != -1;
   return (
     <div className="loginWrapper">
       <div className="loginWrapper__loginContainer">
+        {!isAdmin && <p>Nie masz uprawnien do tej aplikacji</p>}
+        {noAuth && <p>Niepoprawny login lub hasło</p>}
         <h1 className="loginWrapper__loginContainer__title">Login</h1>
         <div
           name="loginForm"
@@ -34,14 +42,15 @@ function Login() {
               setFields({ ...fields, password: e.target.value });
             }}
           ></input>
-          <Link to="/personel_managment_fe" style={{ width: "100%" }}>
-            <input
-              style={{ width: "100%" }}
-              type="submit"
-              className="loginWrapper__loginContainer__inputContainer__button"
-              value="Login"
-            ></input>
-          </Link>
+          {/* <Link to="/personel_managment_fe" style={{ width: "100%" }}> */}
+          <input
+            style={{ width: "100%" }}
+            type="submit"
+            className="loginWrapper__loginContainer__inputContainer__button"
+            value="Login"
+            onClick={submit}
+          ></input>
+          {/* </Link> */}
         </div>
         <p
           className="loginWrapper__loginContainer__link"

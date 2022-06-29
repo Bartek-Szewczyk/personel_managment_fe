@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "../src/pages/home/home";
 import Navigation from "../src/components/navigartion/navigation";
@@ -7,20 +7,47 @@ import Staff from "../src/pages/staff/staff";
 import Error from "../src/pages/error/error";
 import Login from "../src/pages/login/login";
 import Reset from "../src/pages/resetPassword/reset";
+import authService from "./services/authService";
+import ProtectedRoute from "./services/auth/ProtectedRoute";
+import { AuthProvider } from "./services/auth/authProvider";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Navigation />}>
-        <Route index element={<Home />} />
-        <Route path="personel_managment_fe" element={<Home />} />
-        <Route path="statistic" element={<Statistic />} />
-        <Route path="staff" element={<Staff />} />
-        <Route path="login" element={<Login />} />
-        <Route path="login/reset" element={<Reset />} />
-        <Route path="*" element={<Error />} />
-      </Route>
-    </Routes>
+    <AuthProvider>
+      <Routes>
+        <Route path="/" element={<Navigation />}>
+          <Route index element={<Login />} />
+          <Route
+            path="personel_managment_fe"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="statistic"
+            element={
+              <ProtectedRoute>
+                <Statistic />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="staff"
+            element={
+              <ProtectedRoute>
+                <Staff />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="login" element={<Login />} />
+          <Route path="login/reset" element={<Reset />} />
+          <Route path="*" element={<Error />} />
+          <Route path="/error" element={<Error />} />
+        </Route>
+      </Routes>
+    </AuthProvider>
   );
 }
 
