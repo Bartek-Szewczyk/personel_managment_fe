@@ -16,6 +16,7 @@ const AuthProvider = ({ children }) => {
         setToken(res.data.token);
         setRoles(res.data.userRole);
         setNoAuth(false);
+        localStorage.setItem("user", JSON.stringify(res.data));
         console.log(res);
       })
       .catch((err) => {
