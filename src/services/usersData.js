@@ -1,14 +1,9 @@
+import { getHeader } from "./userService";
 const baseUrl = "https://localhost:5001/api/users";
 const axios = require("axios");
-const token = JSON.parse(localStorage.getItem("user"))
-  ? JSON.parse(localStorage.getItem("user"))?.token
-  : "";
-const config = {
-  headers: {
-    Authorization: "Bearer " + token,
-  },
-};
+
 export const allUsers = async () => {
+  const config = await getHeader();
   let response;
 
   try {
@@ -20,6 +15,7 @@ export const allUsers = async () => {
 };
 
 export const addUser = async (user) => {
+  const config = await getHeader();
   try {
     await axios.post(baseUrl, user, config);
   } catch (e) {
@@ -28,6 +24,7 @@ export const addUser = async (user) => {
 };
 
 export const deleteUser = async (id) => {
+  const config = await getHeader();
   try {
     await axios.delete(baseUrl + "/" + id, config);
   } catch (e) {
@@ -36,6 +33,7 @@ export const deleteUser = async (id) => {
 };
 
 export const editUser = async (user) => {
+  const config = await getHeader();
   try {
     await axios.put(baseUrl + "/" + user.id, user, config);
   } catch (e) {
@@ -44,6 +42,7 @@ export const editUser = async (user) => {
 };
 
 export const getUserById = async (id) => {
+  const config = await getHeader();
   let response;
 
   try {

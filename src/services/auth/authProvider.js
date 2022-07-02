@@ -17,17 +17,17 @@ const AuthProvider = ({ children }) => {
         setRoles(res.data.userRole);
         setNoAuth(false);
         localStorage.setItem("user", JSON.stringify(res.data));
-        console.log(res);
       })
       .catch((err) => {
         setNoAuth(true);
+      })
+      .finally(() => {
+        if (!isAdmin) {
+          navigate("/login");
+        } else {
+          navigate("/personel_managment_fe");
+        }
       });
-
-    if (!isAdmin) {
-      navigate("/login");
-    } else {
-      navigate("/personel_managment_fe");
-    }
   };
   const handleLogout = () => {
     authService.logout();
@@ -39,7 +39,9 @@ const AuthProvider = ({ children }) => {
   const value = {
     noAuth,
     roles,
-    token,
+    token: JSON.parse(localStorage.getItem("user"))
+      ? JSON.parse(localStorage.getItem("user"))?.token
+      : "",
     onLogin: handleLogin,
     onLogout: handleLogout,
   };

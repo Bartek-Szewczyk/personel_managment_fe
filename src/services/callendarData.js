@@ -1,15 +1,9 @@
+import { getHeader } from "./userService";
 const baseUrl = "https://localhost:5001/api/events";
 const axios = require("axios");
-const token = JSON.parse(localStorage.getItem("user"))
-  ? JSON.parse(localStorage.getItem("user"))?.token
-  : "";
 
-const config = {
-  headers: {
-    Authorization: "Bearer " + token,
-  },
-};
 export const allEvents = async () => {
+  const config = await getHeader();
   let response;
   try {
     response = await axios.get(baseUrl, config);
@@ -20,6 +14,7 @@ export const allEvents = async () => {
 };
 
 export const deletedEvent = async (id) => {
+  const config = await getHeader();
   try {
     await axios.delete(baseUrl + "/" + id, config);
   } catch (e) {
@@ -28,6 +23,7 @@ export const deletedEvent = async (id) => {
 };
 
 export const addEvent = async (event) => {
+  const config = await getHeader();
   try {
     await axios.post(baseUrl, event, config);
   } catch (e) {
@@ -36,6 +32,7 @@ export const addEvent = async (event) => {
 };
 
 export const editEvent = async (event) => {
+  const config = await getHeader();
   try {
     await axios.put(baseUrl + "/" + event.id, event, config);
   } catch (e) {

@@ -22,7 +22,13 @@ function DeleteEvent({ info, deleteHandler, closeModal, reload }) {
     setTitle(info?.event.title);
     setAllDayEvents(info?.event.allDay);
     setStart(info?.event.startStr);
-    setEnd(info?.event.endStr);
+    if (info?.event.allDay) {
+      const newDataEventEnd = new Date(info?.event.start);
+      newDataEventEnd.setDate(newDataEventEnd.getDate() + 1);
+      setEnd(newDataEventEnd);
+    } else {
+      setEnd(info?.event.endStr);
+    }
     setSelected(info?.event.extendedProps.category);
     setNumber(info?.event.extendedProps.staffnumber);
   }, [info]);

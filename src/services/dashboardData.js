@@ -1,14 +1,9 @@
+import { getHeader } from "./userService";
 const baseUrl = "https://localhost:5001/api/dashboard";
 const axios = require("axios");
-const token = JSON.parse(localStorage.getItem("user"))
-  ? JSON.parse(localStorage.getItem("user"))?.token
-  : "";
-const config = {
-  headers: {
-    Authorization: "Bearer " + token,
-  },
-};
+
 export const getDashboardData = async () => {
+  const config = await getHeader();
   let response;
   try {
     response = await axios.get(baseUrl, config);
