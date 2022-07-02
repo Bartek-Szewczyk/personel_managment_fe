@@ -12,6 +12,9 @@
   align-items: center;
   justify-content: center;
   &__loginContainer {
+    &__errorMessage {
+      color: red;
+    }
     &__title {
       margin-bottom: 40px;
     }

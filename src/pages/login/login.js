@@ -14,8 +14,16 @@ function Login() {
   return (
     <div className="loginWrapper">
       <div className="loginWrapper__loginContainer">
-        {!isAdmin && <p>Nie masz uprawnien do tej aplikacji</p>}
-        {noAuth && <p>Niepoprawny login lub hasło</p>}
+        {!isAdmin && (
+          <p className="loginWrapper__loginContainer__errorMessage">
+            Nie masz dostępu do tej aplikacji
+          </p>
+        )}
+        {noAuth && (
+          <p className="loginWrapper__loginContainer__errorMessage">
+            Niepoprawny login lub hasło
+          </p>
+        )}
         <h1 className="loginWrapper__loginContainer__title">Login</h1>
         <div
           name="loginForm"
