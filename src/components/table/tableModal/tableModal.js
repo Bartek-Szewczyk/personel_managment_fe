@@ -23,6 +23,7 @@ function TableModal({ data, closeHandler, reload }) {
     setEmail(res.email);
     setPhoneNumber(res.phone);
     setSelected(res.category.name);
+    setNumber(res.hourlyRate);
   };
   useEffect(() => {
     fetchData();
@@ -87,6 +88,7 @@ function TableModal({ data, closeHandler, reload }) {
       email: email,
       phone: phoneNumber,
       category: getCategory(selected),
+      hourlyRate: number,
     };
     editUser(user).then(() => {
       reload();

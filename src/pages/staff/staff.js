@@ -101,6 +101,7 @@ const Staff = () => {
       email: email,
       phone: phone,
       category: getCategory(selected),
+      hourlyRate: number,
     });
   };
   const handleSubmit = (event) => {
@@ -196,7 +197,7 @@ const Staff = () => {
             value="Dodaj pracownika"
           ></input>
           {error && (
-            <p className="staffWrapper__error">Podaj nazwę wydarzenia</p>
+            <p className="staffWrapper__error">Podaj nazwę pracownika</p>
           )}
         </form>
       </Modal>

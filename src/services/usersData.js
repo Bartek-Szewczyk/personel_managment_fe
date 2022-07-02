@@ -21,7 +21,7 @@ export const allUsers = async () => {
 
 export const addUser = async (user) => {
   try {
-    await axios.post(baseUrl, user);
+    await axios.post(baseUrl, user, config);
   } catch (e) {
     throw new Error(e.message);
   }
@@ -29,7 +29,7 @@ export const addUser = async (user) => {
 
 export const deleteUser = async (id) => {
   try {
-    await axios.delete(baseUrl + "/" + id);
+    await axios.delete(baseUrl + "/" + id, config);
   } catch (e) {
     throw new Error(e.message);
   }
@@ -37,7 +37,7 @@ export const deleteUser = async (id) => {
 
 export const editUser = async (user) => {
   try {
-    await axios.put(baseUrl + "/" + user.id, user);
+    await axios.put(baseUrl + "/" + user.id, user, config);
   } catch (e) {
     throw new Error(e.message);
   }
@@ -47,7 +47,7 @@ export const getUserById = async (id) => {
   let response;
 
   try {
-    response = await axios.get(baseUrl + "/" + id);
+    response = await axios.get(baseUrl + "/" + id, config);
   } catch (e) {
     throw new Error(e.message);
   }
