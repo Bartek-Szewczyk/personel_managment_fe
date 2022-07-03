@@ -12,6 +12,8 @@ const Staff = () => {
   const [surname, setSurname] = useState();
   const [email, setEmail] = useState();
   const [phone, setPhone] = useState();
+  const [password, setPassword] = useState();
+  const [isAdmin, setIsAdmin] = useState(false);
   const [selected, setSelected] = useState("Barman");
   const [number, setNumber] = useState(1);
   const [error, setError] = useState(false);
@@ -89,6 +91,8 @@ const Staff = () => {
         return { name: "Kelner", id: 2 };
       case "Kucharz":
         return { name: "Kucharz", id: 3 };
+      case "Manager":
+        return { name: "Manager", id: 3 };
       default:
         break;
     }
@@ -102,6 +106,8 @@ const Staff = () => {
       phone: phone,
       category: getCategory(selected),
       hourlyRate: number,
+      password: password,
+      isAdmin: isAdmin,
     });
   };
   const handleSubmit = (event) => {
@@ -156,7 +162,7 @@ const Staff = () => {
             />
           </div>
           <div className="staffWrapper__inputWrapper">
-            <h3>Phone</h3>
+            <h3>Telefon</h3>
             <input
               className="staffWrapper__input"
               type="tel"
@@ -165,6 +171,27 @@ const Staff = () => {
               }}
               required
             />
+          </div>
+          <div className="staffWrapper__inputWrapper">
+            <h3>Hasło</h3>
+            <input
+              className="staffWrapper__input"
+              type="password"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              required
+            />
+          </div>
+          <div className="homeModalWrapper__checkboxContainer">
+            <input
+              className="homeModalWrapper__checkboxContainer__checkbox"
+              type="checkbox"
+              checked={isAdmin}
+              onClick={() => setIsAdmin(!isAdmin)}
+            />
+            Konto administratora
+            <span className="homeModalWrapper__checkboxContainer__checkmark"></span>
           </div>
           <div className="staffWrapper__categoryWrapper">
             <div className="staffWrapper__inputWrapper singleColumn">
@@ -179,6 +206,7 @@ const Staff = () => {
                 </option>
                 <option value="Kelner">Kelner</option>
                 <option value="Kucharz">Kucharz</option>
+                <option value="Manager">Manager</option>
               </select>
             </div>
             <div className="staffWrapper__inputWrapper singleColumn">

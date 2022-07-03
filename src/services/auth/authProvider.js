@@ -32,7 +32,6 @@ const AuthProvider = ({ children }) => {
   const handleLogout = () => {
     authService.logout();
     setToken("");
-    localStorage.removeItem("user");
   };
   const isAdmin = roles?.indexOf("Admin") != -1;
 
