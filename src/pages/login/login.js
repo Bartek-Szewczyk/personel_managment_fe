@@ -7,7 +7,6 @@ function Login() {
   const [fields, setFields] = useState({ email: "", password: "" });
   const [reset, setReset] = useState(false);
   const submit = (e) => {
-    console.log(fields);
     onLogin(fields.email, fields.password);
   };
   const isAdmin = roles?.indexOf("Admin") != -1;
