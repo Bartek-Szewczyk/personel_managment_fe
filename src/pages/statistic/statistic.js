@@ -5,11 +5,15 @@ import PieChart from "../../components/charts/pie";
 import BarChart from "../../components/charts/bar";
 import "./statistic.scss";
 import { getDashboardData } from "../../services/dashboardData";
+import useAuth from "../../services/auth/hooks";
 
 const Statistic = () => {
+  const { onLogout } = useAuth();
   const [data, setData] = useState(null);
   const fetchData = async () => {
-    const response = await getDashboardData();
+    const response = await getDashboardData().catch((e) => {
+      onLogout();
+    });
     setData(response);
   };
   useEffect(() => {

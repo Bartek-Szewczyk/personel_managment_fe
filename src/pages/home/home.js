@@ -9,10 +9,12 @@ import Delete from "./modalState/deleteEvent";
 import AddEvent from "./modalState/addEvent";
 import { allEvents } from "../../services/callendarData";
 import { deletedEvent } from "../../services/callendarData";
+import useAuth from "../../services/auth/hooks";
 
 import "./home.scss";
 
 function Home() {
+  const { onLogout } = useAuth();
   const [modal, setModal] = useState(false);
   const [modalState, setModalState] = useState("add");
   const [deletedEv, setDeletedEv] = useState();
@@ -37,7 +39,9 @@ function Home() {
     });
   };
   const fetchData = async () => {
-    const evs = await allEvents();
+    const evs = await allEvents().catch((e) => {
+      onLogout();
+    });
     setEvents(convertData(evs));
   };
   useEffect(() => {

@@ -4,8 +4,10 @@ import Table from "../../components/table/table";
 import Modal from "../../components/modal/modal";
 import "./staff.scss";
 import { addUser, allUsers } from "../../services/usersData";
+import useAuth from "../../services/auth/hooks";
 
 const Staff = () => {
+  const { onLogout } = useAuth();
   const [modal, setModal] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [name, setName] = useState();
@@ -78,7 +80,9 @@ const Staff = () => {
   };
 
   const fetchData = async () => {
-    const data = await allUsers();
+    const data = await allUsers().catch((e) => {
+      onLogout();
+    });
     const parsedData = parseUser(data);
     setData(parsedData);
   };
