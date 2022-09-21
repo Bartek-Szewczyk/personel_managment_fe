@@ -35,6 +35,7 @@ function Home() {
         staffnumber: item.staffNumber,
         backgroundColor: item.backgroundColor,
         borderColor: item.backgroundColor,
+        staff: item.staff,
       };
     });
   };

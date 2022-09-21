@@ -16,6 +16,19 @@ export const allEvents = async () => {
   }
   return response?.data ? response?.data : null;
 };
+export const getEventById = async (id) => {
+  const config = await getHeader();
+  let response;
+  try {
+    response = await axios.get(`${baseUrl}/${id}`, config);
+  } catch (e) {
+    if (e.response.status === 401) {
+      authService.logout();
+    }
+    throw new Error(e.message);
+  }
+  return response?.data ? response?.data : null;
+};
 
 export const deletedEvent = async (id) => {
   const config = await getHeader();

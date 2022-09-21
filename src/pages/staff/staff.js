@@ -96,7 +96,7 @@ const Staff = () => {
       case "Kucharz":
         return { name: "Kucharz", id: 3 };
       case "Manager":
-        return { name: "Manager", id: 3 };
+        return { name: "Manager", id: 4 };
       default:
         break;
     }

@@ -5,7 +5,7 @@ import Modal from "../../../components/modal/modal";
 import "moment/locale/pl";
 import "./homeModal.scss";
 import "react-datetime/css/react-datetime.css";
-import { editEvent } from "../../../services/callendarData";
+import { editEvent, getEventById } from "../../../services/callendarData";
 
 function DeleteEvent({ info, deleteHandler, closeModal, reload }) {
   const [confirm, setConfirm] = useState(false);
@@ -17,20 +17,24 @@ function DeleteEvent({ info, deleteHandler, closeModal, reload }) {
   const [end, setEnd] = useState();
   const [selected, setSelected] = useState();
   const [number, setNumber] = useState();
-  useEffect(() => {
-    setId(info?.event.id);
-    setTitle(info?.event.title);
-    setAllDayEvents(info?.event.allDay);
-    setStart(info?.event.startStr);
-    if (info?.event.allDay) {
-      const newDataEventEnd = new Date(info?.event.start);
+  const [event, setEvent] = useState({ staff: [] });
+  useEffect(async () => {
+    const eventData = await getEventById(info?.event.id);
+    console.log(eventData);
+    setEvent(eventData);
+    setId(eventData.id);
+    setTitle(eventData.title);
+    setAllDayEvents(eventData.allDay);
+    setStart(eventData.dateStart);
+    if (eventData.allDay) {
+      const newDataEventEnd = new Date(eventData.dateStart);
       newDataEventEnd.setDate(newDataEventEnd.getDate() + 1);
       setEnd(newDataEventEnd);
     } else {
-      setEnd(info?.event.endStr);
+      setEnd(eventData.dateEnd);
     }
-    setSelected(info?.event.extendedProps.category);
-    setNumber(info?.event.extendedProps.staffnumber);
+    setSelected(eventData.category.name);
+    setNumber(eventData.staffNumber);
   }, [info]);
 
   const saveHandler = () => {
@@ -50,13 +54,13 @@ function DeleteEvent({ info, deleteHandler, closeModal, reload }) {
     }).then(() => reload());
     closeModal();
   };
-
-  const staff = [
-    { name: "Alek", surname: "Sobczak", status: true },
-    { name: "Piotr", surname: "Sokołowski", status: false },
-    { name: "Aleksandra", surname: "Michalak", status: false },
-    { name: "Elena", surname: "Kubiak", status: false },
-  ];
+  const staff = event.staff.map((item) => {
+    return {
+      name: item.firstName,
+      surname: item.lastName,
+      status: false,
+    };
+  });
   const setColor = (category) => {
     switch (category) {
       case "Barman":
@@ -107,7 +111,7 @@ function DeleteEvent({ info, deleteHandler, closeModal, reload }) {
           <input
             className="homeModalWrapper__input"
             type="text"
-            value={title}
+            value={event.title}
             onChange={(e) => {
               setTitle(e.target.value);
             }}

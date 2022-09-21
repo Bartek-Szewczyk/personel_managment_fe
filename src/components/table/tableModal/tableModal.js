@@ -76,6 +76,8 @@ function TableModal({ data, closeHandler, reload }) {
         return { name: "Kelner", id: 2 };
       case "Kucharz":
         return { name: "Kucharz", id: 3 };
+      case "Manager":
+        return { name: "Manager", id: 4 };
       default:
         break;
     }
@@ -185,6 +187,7 @@ function TableModal({ data, closeHandler, reload }) {
                 </option>
                 <option value="Kelner">Kelner</option>
                 <option value="Kucharz">Kucharz</option>
+                <option value="Manager">Manager</option>
               </select>
             </div>
             <div className="tableModalWrapper__inputWrapper ">
