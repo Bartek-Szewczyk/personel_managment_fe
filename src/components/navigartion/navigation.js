@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet, Link } from "react-router-dom";
 import CustomLink from "../customLink/customLink";
 import ExampleLogo from "../../assets/exampleLogo.png";
@@ -6,7 +6,9 @@ import "./navigartion.scss";
 import useAuth from "../../services/auth/hooks";
 
 function Navigation() {
-  const { onLogout } = useAuth();
+  const { onLogout, roles } = useAuth();
+
+  const isAdmin = roles?.indexOf("Admin") != -1;
   const [logo, setLogo] = useState(ExampleLogo);
   const onChangeHandler = (e) => {
     const file = e.target.files[0];
@@ -17,6 +19,16 @@ function Navigation() {
       setLogo(reader.result);
     }.bind(this);
   };
+  const userView = (
+    <CustomLink to="/personel_managment_fe">Kalendarz</CustomLink>
+  );
+  const adminView = (
+    <>
+      <CustomLink to="/personel_managment_fe">Kalendarz</CustomLink>
+      <CustomLink to="/staff">Personel</CustomLink>
+      <CustomLink to="/statistic">Statystyki</CustomLink>
+    </>
+  );
   return (
     <div className="navigationContainer">
       <div className="navigationContainer__navigation">
@@ -38,10 +50,7 @@ function Navigation() {
               onChange={(e) => onChangeHandler(e)}
             ></input>
           </div>
-
-          <CustomLink to="/personel_managment_fe">Kalendarz</CustomLink>
-          <CustomLink to="/staff">Personel</CustomLink>
-          <CustomLink to="/statistic">Statystyki</CustomLink>
+          {isAdmin ? adminView : userView}
         </div>
         <div className="navigationContainer__navigation__buttonContainer">
           <Link to="/login" style={{ width: "80%" }}>

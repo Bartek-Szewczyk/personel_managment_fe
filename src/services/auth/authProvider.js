@@ -37,7 +37,9 @@ const AuthProvider = ({ children }) => {
 
   const value = {
     noAuth,
-    roles,
+    roles: JSON.parse(localStorage.getItem("user"))
+      ? JSON.parse(localStorage.getItem("user"))?.userRole
+      : "",
     token: JSON.parse(localStorage.getItem("user"))
       ? JSON.parse(localStorage.getItem("user"))?.token
       : "",

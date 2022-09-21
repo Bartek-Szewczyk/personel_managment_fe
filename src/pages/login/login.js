@@ -13,11 +13,11 @@ function Login() {
   return (
     <div className="loginWrapper">
       <div className="loginWrapper__loginContainer">
-        {!isAdmin && (
+        {/* {!isAdmin && (
           <p className="loginWrapper__loginContainer__errorMessage">
             Nie masz dostępu do tej aplikacji
           </p>
-        )}
+        )} */}
         {noAuth && (
           <p className="loginWrapper__loginContainer__errorMessage">
             Niepoprawny login lub hasło

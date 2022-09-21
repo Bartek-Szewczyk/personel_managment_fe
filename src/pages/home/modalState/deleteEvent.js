@@ -6,6 +6,7 @@ import "moment/locale/pl";
 import "./homeModal.scss";
 import "react-datetime/css/react-datetime.css";
 import { editEvent, getEventById } from "../../../services/callendarData";
+import useAuth from "../../../services/auth/hooks";
 
 function DeleteEvent({ info, deleteHandler, closeModal, reload }) {
   const [confirm, setConfirm] = useState(false);
@@ -18,6 +19,8 @@ function DeleteEvent({ info, deleteHandler, closeModal, reload }) {
   const [selected, setSelected] = useState();
   const [number, setNumber] = useState();
   const [event, setEvent] = useState({ staff: [] });
+  const { roles } = useAuth();
+  const isAdmin = roles?.indexOf("Admin") != -1;
   useEffect(async () => {
     const eventData = await getEventById(info?.event.id);
     console.log(eventData);
@@ -95,7 +98,7 @@ function DeleteEvent({ info, deleteHandler, closeModal, reload }) {
       setConfirm(false);
     }
   };
-  return (
+  const adminView = (
     <div className="homeModalWrapper">
       <Modal show={confirm} handleClose={handleCloseConfirm}>
         <Confirm
@@ -223,6 +226,62 @@ function DeleteEvent({ info, deleteHandler, closeModal, reload }) {
       </div>
     </div>
   );
+  const userView = (
+    <div className="homeModalWrapper">
+      <h1>Zmina</h1>
+      <div>
+        <div className="col">
+          <h3>Nazwa wydarzenia: </h3>
+          <p className="homeModalWrapper__input">{event.title}</p>
+          <div className="homeModalWrapper__checkboxContainer">
+            <input
+              className="homeModalWrapper__checkboxContainer__checkbox"
+              type="checkbox"
+              checked={allDayEvents}
+              onClick={() => setAllDayEvents(!allDayEvents)}
+              disabled
+            />
+            Cały dzień
+            <span className="homeModalWrapper__checkboxContainer__checkmark"></span>
+          </div>
+          <div className="homeModalWrapper__timeContainer">
+            <div className="homeModalWrapper__timeContainer__column">
+              <h3>Start</h3>
+              {event.allDay ? (
+                <p className="homeModalWrapper__input">
+                  {new Date(start).toLocaleDateString()}
+                </p>
+              ) : (
+                <p className="homeModalWrapper__input">
+                  {new Date(start).toLocaleDateString()}{" "}
+                  {new Date(start).toLocaleTimeString()}
+                </p>
+              )}
+            </div>
+            <div className="homeModalWrapper__timeContainer__column">
+              <h3>Koniec</h3>
+              {event.allDay ? (
+                <p className="homeModalWrapper__input">
+                  {new Date(end).toLocaleDateString()}
+                </p>
+              ) : (
+                <p className="homeModalWrapper__input">
+                  {new Date(end).toLocaleDateString()}{" "}
+                  {new Date(end).toLocaleTimeString()}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="homeModalWrapper__buttonContainer">
+        <button className="homeModalWrapper__button" onClick={() => {}}>
+          Zgłoś się
+        </button>
+      </div>
+    </div>
+  );
+  return <>{isAdmin ? adminView : userView}</>;
 }
 
 export default DeleteEvent;
