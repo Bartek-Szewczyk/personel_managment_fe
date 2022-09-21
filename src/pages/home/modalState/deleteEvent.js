@@ -176,31 +176,37 @@ function DeleteEvent({ info, deleteHandler, closeModal, reload }) {
         <div className="homeModalWrapper__applicationsWrapper">
           <h2>Zgłoszenia</h2>
           <div className="homeModalWrapper__applicationsWrapper__container">
-            {staff.map((el) => {
-              return (
-                <div
-                  key={el.surname}
-                  className="homeModalWrapper__applicationsWrapper__container__singleapp"
-                >
-                  <p key={el.surname + "p"}>
-                    {el.name} {el.surname}
-                  </p>
+            {staff.length == 0 ? (
+              <h3 className="homeModalWrapper__applicationsWrapper__container__emptyList">
+                Brak zgłoszeń
+              </h3>
+            ) : (
+              staff.map((el) => {
+                return (
                   <div
-                    className="homeModalWrapper__applicationsWrapper__container__singleapp__buttonWrapper"
-                    key={el.surname + "div"}
+                    key={el.surname}
+                    className="homeModalWrapper__applicationsWrapper__container__singleapp"
                   >
-                    <button
-                      className={`homeModalWrapper__applicationsWrapper__container__singleapp__button ${
-                        el.status ? "accepted" : ""
-                      }`}
-                      key={el.surname + "button"}
+                    <p key={el.surname + "p"}>
+                      {el.name} {el.surname}
+                    </p>
+                    <div
+                      className="homeModalWrapper__applicationsWrapper__container__singleapp__buttonWrapper"
+                      key={el.surname + "div"}
                     >
-                      {el.status ? "Zatwierdzony" : "Akceptuj"}
-                    </button>
+                      <button
+                        className={`homeModalWrapper__applicationsWrapper__container__singleapp__button ${
+                          el.status ? "accepted" : ""
+                        }`}
+                        key={el.surname + "button"}
+                      >
+                        {el.status ? "Zatwierdzony" : "Akceptuj"}
+                      </button>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })
+            )}
           </div>
         </div>
       </div>
