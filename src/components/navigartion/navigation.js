@@ -20,7 +20,10 @@ function Navigation() {
     }.bind(this);
   };
   const userView = (
-    <CustomLink to="/personel_managment_fe">Kalendarz</CustomLink>
+    <>
+      <CustomLink to="/personel_managment_fe">Kalendarz</CustomLink>
+      <CustomLink to="/my_events">Moje zmiany</CustomLink>
+    </>
   );
   const adminView = (
     <>

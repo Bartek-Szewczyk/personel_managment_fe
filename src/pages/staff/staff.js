@@ -22,6 +22,7 @@ const Staff = () => {
   const [error, setError] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const modalType = "staff";
 
   const handleClose = () => {
     setModal(false);
@@ -249,6 +250,7 @@ const Staff = () => {
         <Table
           columns={columns}
           data={data}
+          modalType={modalType}
           reload={() => {
             fetchData();
           }}
