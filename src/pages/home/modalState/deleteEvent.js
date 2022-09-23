@@ -5,7 +5,13 @@ import Modal from "../../../components/modal/modal";
 import "moment/locale/pl";
 import "./homeModal.scss";
 import "react-datetime/css/react-datetime.css";
-import { editEvent, getEventById } from "../../../services/callendarData";
+import {
+  editEvent,
+  getEventById,
+  addUserToEvent,
+  deleteUserToEvent,
+  updateUserToEvent,
+} from "../../../services/callendarData";
 import useAuth from "../../../services/auth/hooks";
 
 function DeleteEvent({ info, deleteHandler, closeModal, reload }) {
@@ -19,25 +25,33 @@ function DeleteEvent({ info, deleteHandler, closeModal, reload }) {
   const [selected, setSelected] = useState();
   const [number, setNumber] = useState();
   const [event, setEvent] = useState({ staff: [] });
-  const { roles } = useAuth();
+  const [isUserInEventState, setIsUserInEventState] = useState(null);
+  const { roles, userId } = useAuth();
   const isAdmin = roles?.indexOf("Admin") != -1;
+
+  const fetchData = async () => {
+    await getEventById(info?.event.id).then((data) => {
+      setEvent(data);
+      setId(data.id);
+      setTitle(data.title);
+      setAllDayEvents(data.allDay);
+      setStart(data.dateStart);
+      if (data.allDay) {
+        const newDataEventEnd = new Date(data.dateStart);
+        newDataEventEnd.setDate(newDataEventEnd.getDate() + 1);
+        setEnd(newDataEventEnd);
+      } else {
+        setEnd(data.dateEnd);
+      }
+      setSelected(data.category.name);
+      setNumber(data.staffNumber);
+      isUserInEvent(data.staff);
+    });
+  };
   useEffect(async () => {
-    const eventData = await getEventById(info?.event.id);
-    console.log(eventData);
-    setEvent(eventData);
-    setId(eventData.id);
-    setTitle(eventData.title);
-    setAllDayEvents(eventData.allDay);
-    setStart(eventData.dateStart);
-    if (eventData.allDay) {
-      const newDataEventEnd = new Date(eventData.dateStart);
-      newDataEventEnd.setDate(newDataEventEnd.getDate() + 1);
-      setEnd(newDataEventEnd);
-    } else {
-      setEnd(eventData.dateEnd);
+    if (info?.event.id) {
+      await fetchData();
     }
-    setSelected(eventData.category.name);
-    setNumber(eventData.staffNumber);
   }, [info]);
 
   const saveHandler = () => {
@@ -57,13 +71,22 @@ function DeleteEvent({ info, deleteHandler, closeModal, reload }) {
     }).then(() => reload());
     closeModal();
   };
-  const staff = event.staff.map((item) => {
-    return {
-      name: item.firstName,
-      surname: item.lastName,
-      status: false,
-    };
-  });
+  const userToEventHandler = async (id) => {
+    if (!isUserInEventState) {
+      await addUserToEvent(id).then(() => setIsUserInEventState(true));
+    } else {
+      await deleteUserToEvent(id).then(() => setIsUserInEventState(false));
+    }
+  };
+  const isUserInEvent = (list) => {
+    setIsUserInEventState(list.some((x) => x.userId === userId));
+  };
+  const updateUserToEventHandler = async (id, userId, approved) => {
+    await updateUserToEvent(id, userId, approved).then(() => fetchData());
+  };
+  const isApproved = (list) => {
+    return list.some((x) => x.userId === userId && x.approved);
+  };
   const setColor = (category) => {
     switch (category) {
       case "Barman":
@@ -176,12 +199,12 @@ function DeleteEvent({ info, deleteHandler, closeModal, reload }) {
         <div className="homeModalWrapper__applicationsWrapper">
           <h2>Zgłoszenia</h2>
           <div className="homeModalWrapper__applicationsWrapper__container">
-            {staff.length == 0 ? (
+            {event.staff.length == 0 ? (
               <h3 className="homeModalWrapper__applicationsWrapper__container__emptyList">
                 Brak zgłoszeń
               </h3>
             ) : (
-              staff.map((el) => {
+              event.staff.map((el) => {
                 return (
                   <div
                     key={el.surname}
@@ -196,11 +219,18 @@ function DeleteEvent({ info, deleteHandler, closeModal, reload }) {
                     >
                       <button
                         className={`homeModalWrapper__applicationsWrapper__container__singleapp__button ${
-                          el.status ? "accepted" : ""
+                          el.approved ? "accepted" : ""
                         }`}
                         key={el.surname + "button"}
+                        onClick={() => {
+                          updateUserToEventHandler(
+                            event.id,
+                            el.userId,
+                            !el.approved
+                          );
+                        }}
                       >
-                        {el.status ? "Zatwierdzony" : "Akceptuj"}
+                        {el.approved ? "Zatwierdzony" : "Akceptuj"}
                       </button>
                     </div>
                   </div>
@@ -234,7 +264,16 @@ function DeleteEvent({ info, deleteHandler, closeModal, reload }) {
   );
   const userView = (
     <div className="homeModalWrapper">
-      <h1>Zmina</h1>
+      {isUserInEventState ? (
+        isApproved(event.staff) ? (
+          <h1>Jesteś przyjęty !</h1>
+        ) : (
+          <h1>Czeka na zatwierdzenie</h1>
+        )
+      ) : (
+        <h1>Nowa zmiana</h1>
+      )}
+
       <div>
         <div className="col">
           <h3>Nazwa wydarzenia: </h3>
@@ -281,8 +320,13 @@ function DeleteEvent({ info, deleteHandler, closeModal, reload }) {
         </div>
       </div>
       <div className="homeModalWrapper__buttonContainer">
-        <button className="homeModalWrapper__button" onClick={() => {}}>
-          Zgłoś się
+        <button
+          className="homeModalWrapper__button"
+          onClick={() => {
+            userToEventHandler(event.id);
+          }}
+        >
+          {isUserInEventState ? "Wypisz się" : "Zgłoś się"}
         </button>
       </div>
     </div>

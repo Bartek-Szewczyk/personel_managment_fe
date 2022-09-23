@@ -14,12 +14,13 @@ import useAuth from "../../services/auth/hooks";
 import "./home.scss";
 
 function Home() {
-  const { onLogout } = useAuth();
+  const { onLogout, roles } = useAuth();
   const [modal, setModal] = useState(false);
   const [modalState, setModalState] = useState("add");
   const [deletedEv, setDeletedEv] = useState();
   const [selectedInfo, setSelectedInfo] = useState();
   const [events, setEvents] = useState();
+  const isAdmin = roles?.indexOf("Admin") != -1;
   const handleClose = () => {
     setModal(false);
   };
@@ -93,7 +94,7 @@ function Home() {
             right: "dayGridMonth,timeGridWeek,timeGridDay",
           }}
           editable={true}
-          selectable={true}
+          selectable={isAdmin}
           selectMirror={true}
           dayMaxEvents={true}
           locale="pl"

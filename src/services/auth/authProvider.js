@@ -22,11 +22,7 @@ const AuthProvider = ({ children }) => {
         setNoAuth(true);
       })
       .finally(() => {
-        if (!isAdmin) {
-          navigate("/login");
-        } else {
-          navigate("/personel_managment_fe");
-        }
+        navigate("/personel_managment_fe");
       });
   };
   const handleLogout = () => {
@@ -37,6 +33,9 @@ const AuthProvider = ({ children }) => {
 
   const value = {
     noAuth,
+    userId: JSON.parse(localStorage.getItem("user"))
+      ? JSON.parse(localStorage.getItem("user"))?.userId
+      : "",
     roles: JSON.parse(localStorage.getItem("user"))
       ? JSON.parse(localStorage.getItem("user"))?.userRole
       : "",
