@@ -5,6 +5,7 @@ import Modal from "../../components/modal/modal";
 import "./staff.scss";
 import { addUser, allUsers } from "../../services/usersData";
 import useAuth from "../../services/auth/hooks";
+import Loader from "../../components/loader/loader";
 
 const Staff = () => {
   const { onLogout } = useAuth();
@@ -20,6 +21,7 @@ const Staff = () => {
   const [number, setNumber] = useState(1);
   const [error, setError] = useState(false);
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleClose = () => {
     setModal(false);
@@ -80,9 +82,14 @@ const Staff = () => {
   };
 
   const fetchData = async () => {
-    const data = await allUsers().catch((e) => {
-      onLogout();
-    });
+    setLoading(true);
+    const data = await allUsers()
+      .catch((e) => {
+        onLogout();
+      })
+      .finally(() => {
+        setLoading(false);
+      });
     const parsedData = parseUser(data);
     setData(parsedData);
   };
@@ -128,6 +135,7 @@ const Staff = () => {
 
   return (
     <div className="staffWrapper">
+      <Loader loading={loading} />
       <Modal show={confirm} handleClose={handleCloseConfirm} />
       <Modal show={modal} handleClose={handleClose}>
         <form className="staffModal" onSubmit={handleSubmit}>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Datetime from "react-datetime";
 import Confirm from "../../../components/confirm/confirm";
 import Modal from "../../../components/modal/modal";
+import Loader from "../../../components/loader/loader";
 import "moment/locale/pl";
 import "./homeModal.scss";
 import "react-datetime/css/react-datetime.css";
@@ -14,7 +15,7 @@ import {
 } from "../../../services/callendarData";
 import useAuth from "../../../services/auth/hooks";
 
-function DeleteEvent({ info, deleteHandler, closeModal, reload }) {
+function DeleteEvent({ info, deleteHandler, closeModal, reload, loading }) {
   const [confirm, setConfirm] = useState(false);
   const [confirmText, setConfirmText] = useState("Na pewno zapisać zmiany?");
   const [id, setId] = useState();
@@ -30,23 +31,28 @@ function DeleteEvent({ info, deleteHandler, closeModal, reload }) {
   const isAdmin = roles?.indexOf("Admin") != -1;
 
   const fetchData = async () => {
-    await getEventById(info?.event.id).then((data) => {
-      setEvent(data);
-      setId(data.id);
-      setTitle(data.title);
-      setAllDayEvents(data.allDay);
-      setStart(data.dateStart);
-      if (data.allDay) {
-        const newDataEventEnd = new Date(data.dateStart);
-        newDataEventEnd.setDate(newDataEventEnd.getDate() + 1);
-        setEnd(newDataEventEnd);
-      } else {
-        setEnd(data.dateEnd);
-      }
-      setSelected(data.category.name);
-      setNumber(data.staffNumber);
-      isUserInEvent(data.staff);
-    });
+    loading(true);
+    await getEventById(info?.event.id)
+      .then((data) => {
+        setEvent(data);
+        setId(data.id);
+        setTitle(data.title);
+        setAllDayEvents(data.allDay);
+        setStart(data.dateStart);
+        if (data.allDay) {
+          const newDataEventEnd = new Date(data.dateStart);
+          newDataEventEnd.setDate(newDataEventEnd.getDate() + 1);
+          setEnd(newDataEventEnd);
+        } else {
+          setEnd(data.dateEnd);
+        }
+        setSelected(data.category.name);
+        setNumber(data.staffNumber);
+        isUserInEvent(data.staff);
+      })
+      .finally(() => {
+        loading(false);
+      });
   };
   useEffect(async () => {
     if (info?.event.id) {
@@ -137,7 +143,7 @@ function DeleteEvent({ info, deleteHandler, closeModal, reload }) {
           <input
             className="homeModalWrapper__input"
             type="text"
-            value={event.title}
+            value={title}
             onChange={(e) => {
               setTitle(e.target.value);
             }}
@@ -331,7 +337,12 @@ function DeleteEvent({ info, deleteHandler, closeModal, reload }) {
       </div>
     </div>
   );
-  return <>{isAdmin ? adminView : userView}</>;
+  return (
+    <>
+      <Loader></Loader>
+      {isAdmin ? adminView : userView}
+    </>
+  );
 }
 
 export default DeleteEvent;

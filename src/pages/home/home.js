@@ -12,6 +12,7 @@ import { deletedEvent } from "../../services/callendarData";
 import useAuth from "../../services/auth/hooks";
 
 import "./home.scss";
+import Loader from "../../components/loader/loader";
 
 function Home() {
   const { onLogout, roles } = useAuth();
@@ -20,6 +21,7 @@ function Home() {
   const [deletedEv, setDeletedEv] = useState();
   const [selectedInfo, setSelectedInfo] = useState();
   const [events, setEvents] = useState();
+  const [loading, setLoading] = useState(false);
   const isAdmin = roles?.indexOf("Admin") != -1;
   const handleClose = () => {
     setModal(false);
@@ -41,9 +43,14 @@ function Home() {
     });
   };
   const fetchData = async () => {
-    const evs = await allEvents().catch((e) => {
-      onLogout();
-    });
+    setLoading(true);
+    const evs = await allEvents()
+      .catch((e) => {
+        onLogout();
+      })
+      .finally(() => {
+        setLoading(false);
+      });
     setEvents(convertData(evs));
   };
   useEffect(() => {
@@ -68,6 +75,7 @@ function Home() {
   };
   return (
     <div className="homeContainer">
+      <Loader loading={loading} />
       <Modal show={modal} handleClose={handleClose}>
         {modalState === "add" ? (
           <AddEvent
@@ -81,6 +89,7 @@ function Home() {
             deleteHandler={deleteHandler}
             closeModal={handleClose}
             reload={() => fetchData()}
+            loading={setLoading}
           />
         )}
       </Modal>

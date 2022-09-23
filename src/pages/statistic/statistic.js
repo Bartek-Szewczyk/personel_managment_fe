@@ -6,14 +6,21 @@ import BarChart from "../../components/charts/bar";
 import "./statistic.scss";
 import { getDashboardData } from "../../services/dashboardData";
 import useAuth from "../../services/auth/hooks";
+import Loader from "../../components/loader/loader";
 
 const Statistic = () => {
   const { onLogout } = useAuth();
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
   const fetchData = async () => {
-    const response = await getDashboardData().catch((e) => {
-      onLogout();
-    });
+    setLoading(true);
+    const response = await getDashboardData()
+      .catch((e) => {
+        onLogout();
+      })
+      .finally(() => {
+        setLoading(false);
+      });
     setData(response);
   };
   useEffect(() => {
@@ -85,6 +92,7 @@ const Statistic = () => {
   };
   return (
     <div className="statisticWrapper">
+      <Loader loading={loading} />
       <Layout title="Statystyki">
         <div className="statisticWrapper__chartWrapper">
           <div className="statisticWrapper__barChart">

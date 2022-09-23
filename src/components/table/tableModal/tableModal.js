@@ -4,7 +4,7 @@ import Confirm from "../../confirm/confirm";
 import "./tableModal.scss";
 import { deleteUser, editUser, getUserById } from "../../../services/usersData";
 
-function TableModal({ data, closeHandler, reload }) {
+function TableModal({ data, closeHandler, reload, loading }) {
   const [confirm, setConfirm] = useState(false);
   const [confirmText, setConfirmText] = useState("Na pewno zapisać zminay?");
   const [name, setName] = useState("");
@@ -17,7 +17,8 @@ function TableModal({ data, closeHandler, reload }) {
   const [count, setCount] = useState(data.count);
 
   const fetchData = async () => {
-    const res = await getUserById(data.id);
+    loading(true);
+    const res = await getUserById(data.id).finally(() => loading(false));
     setName(res.firstName);
     setSurname(res.lastName);
     setEmail(res.email);
