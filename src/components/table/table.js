@@ -14,6 +14,7 @@ import { matchSorter } from "match-sorter";
 import "./table.scss";
 import Modal from "../modal/modal.js";
 import TableModal from "./tableModal/tableModal.js";
+import Loader from "../loader/loader.js";
 
 function GlobalFilter({
   preGlobalFilteredRows,
@@ -49,6 +50,7 @@ fuzzyTextFilterFn.autoRemove = (val) => !val;
 function Table({ columns, data, reload }) {
   const [modal, setModal] = useState(false);
   const [currentUser, setCurrentUser] = useState();
+  const [loading, setLoading] = useState(false);
   const filterTypes = React.useMemo(
     () => ({
       fuzzyText: fuzzyTextFilterFn,
@@ -107,6 +109,7 @@ function Table({ columns, data, reload }) {
   };
   return (
     <>
+      <Loader loading={loading} />
       <Modal show={modal} handleClose={handleClose}>
         <TableModal
           data={currentUser}
@@ -114,6 +117,7 @@ function Table({ columns, data, reload }) {
           reload={() => {
             reload();
           }}
+          loading={setLoading}
         />
       </Modal>
       <Styles>
