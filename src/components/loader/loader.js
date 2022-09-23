@@ -6,7 +6,7 @@ function Loader({ loading }) {
   }
   return (
     <div className="loaderWpapper">
-      <div class="lds-default">
+      <div className="lds-default">
         <div></div>
         <div></div>
         <div></div>
