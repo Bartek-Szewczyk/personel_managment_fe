@@ -4,7 +4,6 @@ import "./myEventsModal.scss";
 
 function MyEventsModal({ data, closeHandler, reload }) {
   const [number, setNumber] = useState(data.hours);
-
   const submit = (e) => {
     e.preventDefault();
     reportHours(data.eventId, number).then(() => {
@@ -28,14 +27,16 @@ function MyEventsModal({ data, closeHandler, reload }) {
           type="number"
           value={number}
           onChange={(e) => setNumber(e.target.value)}
+          disabled={data.paid != "Nie"}
         />
       </div>
-
-      <div className="myEventsModalWrapper__buttonContainer">
-        <button className="myEventsModalWrapper__button" type="submit">
-          Zapisz
-        </button>
-      </div>
+      {data.paid == "Nie" && (
+        <div className="myEventsModalWrapper__buttonContainer">
+          <button className="myEventsModalWrapper__button" type="submit">
+            Zapisz
+          </button>
+        </div>
+      )}
     </form>
   );
 }

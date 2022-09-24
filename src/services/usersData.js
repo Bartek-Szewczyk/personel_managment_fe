@@ -56,3 +56,16 @@ export const getUserById = async (id) => {
   }
   return response?.data ? response?.data : null;
 };
+
+export const paidUser = async (date, userId, paid) => {
+  const config = await getHeader();
+  try {
+    await axios.post(
+      baseUrl + "/paid",
+      { MonthDate: date, UserId: userId, Paid: paid },
+      config
+    );
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};

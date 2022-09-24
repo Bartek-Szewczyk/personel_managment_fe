@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import Modal from "../../modal/modal";
 import Confirm from "../../confirm/confirm";
 import "./tableModal.scss";
-import { deleteUser, editUser, getUserById } from "../../../services/usersData";
+import {
+  deleteUser,
+  editUser,
+  getUserById,
+  paidUser,
+} from "../../../services/usersData";
 
 function TableModal({ data, closeHandler, reload, loading }) {
   const [confirm, setConfirm] = useState(false);
@@ -15,6 +20,9 @@ function TableModal({ data, closeHandler, reload, loading }) {
   const [number, setNumber] = useState(1);
   const [hours, setHours] = useState(data.hours);
   const [count, setCount] = useState(data.count);
+  const [reportList, setReportList] = useState([]);
+  const [monthToPaid, setMonthToPaid] = useState();
+  const [paidStatus, setPaidStatus] = useState();
 
   const fetchData = async () => {
     loading(true);
@@ -25,16 +33,57 @@ function TableModal({ data, closeHandler, reload, loading }) {
     setPhoneNumber(res.phone);
     setSelected(res.category.name);
     setNumber(res.hourlyRate);
+    setReportList(parseReports(res.monthReports));
   };
   useEffect(() => {
     fetchData();
   }, []);
 
-  const oldReport = [
-    { month: "Styczeń", hours: 154, amount: 3388, status: true },
-    { month: "Luty", hours: 120, amount: 2640, status: true },
-    { month: "Marzec", hours: 145, amount: 3190, status: false },
-  ];
+  const setMonth = (month) => {
+    switch (month) {
+      case 0:
+        return "Styczeń";
+      case 1:
+        return "Luty";
+      case 2:
+        return "Marzec";
+      case 3:
+        return "Kwiecień";
+      case 4:
+        return "Maj";
+      case 5:
+        return "Czerwiec";
+      case 6:
+        return "Lipiec";
+      case 7:
+        return "Sierpień";
+      case 8:
+        return "Wrzesień";
+      case 9:
+        return "Październik";
+      case 10:
+        return "Listopad";
+      case 11:
+        return "Grudzień";
+      default:
+        break;
+    }
+  };
+  const parseReports = (list) => {
+    const newList = [];
+    list.map((item) => {
+      if (!item.amount == 0 && !item.hours == 0) {
+        newList.push({
+          month: item.monthDate,
+          hours: item.hours,
+          amount: item.amount,
+          status: item.paid,
+          paidDate: item.paidDate,
+        });
+      }
+    });
+    return newList;
+  };
   const handleCloseConfirm = () => {
     setConfirm(false);
   };
@@ -43,7 +92,11 @@ function TableModal({ data, closeHandler, reload, loading }) {
       deleteHandler();
       setConfirm(false);
       closeHandler();
-    } else if (confirmText === "Czy potwierdzasz wypłacenie?") {
+    } else if (
+      confirmText === "Czy potwierdzasz wypłacenie?" ||
+      confirmText === "Czy anulować wypłatę?"
+    ) {
+      paidHandler(monthToPaid, data.id, !paidStatus);
       setConfirm(false);
     } else if (confirmText === "Czy na pewno chcesz zapisać zmiany?") {
       editHandler();
@@ -52,16 +105,16 @@ function TableModal({ data, closeHandler, reload, loading }) {
     }
   };
   const handleNo = () => {
-    if (confirmText === "Czy na pewno chcesz usunąć?") {
-      setConfirm(false);
-    } else if (confirmText === "Czy potwierdzasz wypłacenie?") {
-      setConfirm(false);
-    } else {
-      setConfirm(false);
-    }
+    setConfirm(false);
   };
-  const payed = () => {
-    setConfirmText("Czy potwierdzasz wypłacenie?");
+  const payed = (month, status) => {
+    setMonthToPaid(month);
+    setPaidStatus(status);
+    if (status) {
+      setConfirmText("Czy anulować wypłatę?");
+    } else {
+      setConfirmText("Czy potwierdzasz wypłacenie?");
+    }
     setConfirm(true);
   };
   const deleteHandler = () => {
@@ -95,6 +148,11 @@ function TableModal({ data, closeHandler, reload, loading }) {
     };
     editUser(user).then(() => {
       reload();
+    });
+  };
+  const paidHandler = (date, userId, paid) => {
+    paidUser(date, userId, paid).then(() => {
+      fetchData();
     });
   };
   return (
@@ -204,57 +262,63 @@ function TableModal({ data, closeHandler, reload, loading }) {
           <div className="tableModalWrapper__reportWrapper">
             <h2>Poprzednie miesiące</h2>
             <div className="tableModalWrapper__reportWrapper__container">
-              {oldReport.map((el, index) => {
-                return (
-                  <div
-                    key={el.month + index}
-                    className="tableModalWrapper__reportWrapper__container__singleapp"
-                  >
-                    <p
-                      className="tableModalWrapper__reportWrapper__container__singleapp__month"
-                      key={el.month}
-                    >
-                      {el.month}
-                    </p>
-                    <p
-                      className="tableModalWrapper__reportWrapper__container__singleapp__hours"
-                      key={el.hours}
-                    >
-                      {el.hours} godz.
-                    </p>
-                    <p
-                      className="tableModalWrapper__reportWrapper__container__singleapp__amount"
-                      key={el.amount}
-                    >
-                      {el.amount} zł
-                    </p>
+              {reportList.length == 0 ? (
+                <h3 className="homeModalWrapper__applicationsWrapper__container__emptyList">
+                  Brak raportów
+                </h3>
+              ) : (
+                reportList.map((el, index) => {
+                  return (
                     <div
-                      className="tableModalWrapper__reportWrapper__container__singleapp__buttonWrapper"
-                      key={el.status + "div"}
+                      key={el.month + index}
+                      className="tableModalWrapper__reportWrapper__container__singleapp"
                     >
-                      <button
-                        className={`tableModalWrapper__reportWrapper__container__singleapp__button ${
-                          el.status ? "accepted" : ""
-                        }`}
-                        onClick={() => {
-                          !el.status ? payed() : setConfirm(false);
-                        }}
-                        key={el.status + "button"}
+                      <p
+                        className="tableModalWrapper__reportWrapper__container__singleapp__month"
+                        key={el.month}
                       >
-                        {el.status ? "Wypłacone" : "Oczekuje"}
-                      </button>
-                      {el.status && (
-                        <p
-                          className="tableModalWrapper__reportWrapper__container__singleapp__button__date"
-                          key={el.status + "p"}
+                        {setMonth(new Date(el.month).getMonth())}
+                      </p>
+                      <p
+                        className="tableModalWrapper__reportWrapper__container__singleapp__hours"
+                        key={el.hours}
+                      >
+                        {el.hours} godz.
+                      </p>
+                      <p
+                        className="tableModalWrapper__reportWrapper__container__singleapp__amount"
+                        key={el.amount}
+                      >
+                        {el.amount} zł
+                      </p>
+                      <div
+                        className="tableModalWrapper__reportWrapper__container__singleapp__buttonWrapper"
+                        key={el.status + "div"}
+                      >
+                        <button
+                          className={`tableModalWrapper__reportWrapper__container__singleapp__button ${
+                            el.status ? "accepted" : ""
+                          }`}
+                          onClick={() => {
+                            payed(el.month, el.status);
+                          }}
+                          key={el.status + "button"}
                         >
-                          02.0{index + 1}.2022
-                        </p>
-                      )}
+                          {el.status ? "Wypłacone" : "Oczekuje"}
+                        </button>
+                        {el.status && (
+                          <p
+                            className="tableModalWrapper__reportWrapper__container__singleapp__button__date"
+                            key={el.status + "p"}
+                          >
+                            {new Date(el.paidDate).toLocaleDateString()}
+                          </p>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })
+              )}
             </div>
           </div>
         </div>

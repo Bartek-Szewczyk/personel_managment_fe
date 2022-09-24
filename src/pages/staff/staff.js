@@ -76,8 +76,8 @@ const Staff = () => {
         firstName: user.firstName,
         lastName: user.lastName,
         category: user.category.name,
-        hours: "97",
-        count: "12",
+        hours: user.monthReports[0] ? user.monthReports[0].hours : 0,
+        count: user.monthReports[0] ? user.monthReports[0].count : 0,
       };
     });
   };
