@@ -10,6 +10,7 @@ import Reset from "../src/pages/resetPassword/reset";
 import authService from "./services/authService";
 import ProtectedRoute from "./services/auth/ProtectedRoute";
 import { AuthProvider } from "./services/auth/authProvider";
+import MyEvents from "./pages/myEvents/myEvents";
 
 function App() {
   return (
@@ -38,6 +39,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Staff />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="my_events"
+            element={
+              <ProtectedRoute>
+                <MyEvents />
               </ProtectedRoute>
             }
           />

@@ -15,6 +15,7 @@ import "./table.scss";
 import Modal from "../modal/modal.js";
 import TableModal from "./tableModal/tableModal.js";
 import Loader from "../loader/loader.js";
+import MyEventsModal from "../../pages/myEvents/myEventsModal/myEventsModal.js";
 
 function GlobalFilter({
   preGlobalFilteredRows,
@@ -47,7 +48,7 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
 
 fuzzyTextFilterFn.autoRemove = (val) => !val;
 
-function Table({ columns, data, reload }) {
+function Table({ columns, data, reload, modalType }) {
   const [modal, setModal] = useState(false);
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(false);
@@ -111,14 +112,24 @@ function Table({ columns, data, reload }) {
     <>
       <Loader loading={loading} />
       <Modal show={modal} handleClose={handleClose}>
-        <TableModal
-          data={currentUser}
-          closeHandler={handleClose}
-          reload={() => {
-            reload();
-          }}
-          loading={setLoading}
-        />
+        {modalType == "staff" ? (
+          <TableModal
+            data={currentUser}
+            closeHandler={handleClose}
+            reload={() => {
+              reload();
+            }}
+            loading={setLoading}
+          />
+        ) : (
+          <MyEventsModal
+            data={currentUser}
+            closeHandler={handleClose}
+            reload={() => {
+              reload();
+            }}
+          />
+        )}
       </Modal>
       <Styles>
         <GlobalFilter

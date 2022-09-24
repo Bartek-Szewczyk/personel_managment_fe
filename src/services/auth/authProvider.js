@@ -29,6 +29,11 @@ const AuthProvider = ({ children }) => {
     authService.logout();
     setToken("");
   };
+  const handleResetPassword = async (email, password) => {
+    await authService.resetPassword(email, password).catch((err) => {
+      setNoAuth(true);
+    });
+  };
   const isAdmin = roles?.indexOf("Admin") != -1;
 
   const value = {
@@ -44,6 +49,7 @@ const AuthProvider = ({ children }) => {
       : "",
     onLogin: handleLogin,
     onLogout: handleLogout,
+    resetPassword: handleResetPassword,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -15,6 +15,10 @@
     &__errorMessage {
       color: red;
     }
+    &__errorMessage {
+      color: green;
+      font-weight: bold;
+    }
     &__title {
       margin-bottom: 40px;
     }
@@ -45,6 +49,10 @@
       }
       &__button:hover {
         background-color: $base-color-hover;
+      }
+      &__button:disabled {
+        background-color: #b4c0ff;
+        cursor: not-allowed;
       }
     }
     &__link {

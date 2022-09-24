@@ -92,3 +92,30 @@ export const deleteUserToEvent = async (eventId) => {
     throw new Error(e.message);
   }
 };
+
+export const getUserEvents = async () => {
+  const config = await getHeader();
+  let response;
+  try {
+    response = await axios.get(baseUserEventsUrl + "/MyEvents", config);
+  } catch (e) {
+    if (e.response.status === 401) {
+      authService.logout();
+    }
+    throw new Error(e.message);
+  }
+  return response?.data ? response?.data : null;
+};
+
+export const reportHours = async (eventId, hours) => {
+  const config = await getHeader();
+  try {
+    await axios.put(
+      baseUserEventsUrl + "/reportHours",
+      { hours: hours, eventId: eventId },
+      config
+    );
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
