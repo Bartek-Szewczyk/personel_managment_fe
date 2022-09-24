@@ -18,7 +18,7 @@ const Staff = () => {
   const [password, setPassword] = useState();
   const [isAdmin, setIsAdmin] = useState(false);
   const [selected, setSelected] = useState("Barman");
-  const [number, setNumber] = useState(1);
+  const [number, setNumber] = useState(23);
   const [error, setError] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -111,6 +111,9 @@ const Staff = () => {
   };
 
   const newUser = async () => {
+    if (getCategory(selected).id === 4) {
+      setIsAdmin(true);
+    }
     await addUser({
       firstName: name,
       lastName: surname,
@@ -119,7 +122,7 @@ const Staff = () => {
       category: getCategory(selected),
       hourlyRate: number,
       password: password,
-      isAdmin: isAdmin,
+      isAdmin: getCategory(selected).id === 4 ? true : false,
     });
   };
   const handleSubmit = (event) => {
@@ -196,7 +199,7 @@ const Staff = () => {
               required
             />
           </div>
-          <div className="homeModalWrapper__checkboxContainer">
+          {/* <div className="homeModalWrapper__checkboxContainer">
             <input
               className="homeModalWrapper__checkboxContainer__checkbox"
               type="checkbox"
@@ -205,7 +208,7 @@ const Staff = () => {
             />
             Konto administratora
             <span className="homeModalWrapper__checkboxContainer__checkmark"></span>
-          </div>
+          </div> */}
           <div className="staffWrapper__categoryWrapper">
             <div className="staffWrapper__inputWrapper singleColumn">
               <h3>Kategoria pracownika</h3>
