@@ -12,7 +12,7 @@ export default function MyEvents() {
   const columns = useMemo(
     () => [
       {
-        Header: "Zmiany",
+        Header: "Raporty",
         columns: [
           {
             Header: "Data",
