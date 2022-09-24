@@ -223,6 +223,7 @@ function TableModal({ data, closeHandler, reload, loading }) {
                 type="number"
                 value={hours}
                 onChange={(e) => setHours(e.target.value)}
+                disabled
               />
             </div>
             <div className="tableModalWrapper__inputWrapper">
@@ -232,6 +233,7 @@ function TableModal({ data, closeHandler, reload, loading }) {
                 type="number"
                 value={count}
                 onChange={(e) => setCount(e.target.value)}
+                disabled
               />
             </div>
             <div className="tableModalWrapper__inputWrapper">

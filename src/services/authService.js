@@ -7,6 +7,12 @@ class AuthService {
       password,
     });
   }
+  resetPassword(email, password) {
+    return axios.post(API_URL + "resetPassword", {
+      email,
+      password,
+    });
+  }
   logout() {
     localStorage.removeItem("user");
   }

@@ -3,12 +3,22 @@ import "./login.scss";
 import useAuth from "../../services/auth/hooks";
 
 function Login() {
-  const { onLogin, roles, noAuth } = useAuth();
-  const [fields, setFields] = useState({ email: "", password: "" });
+  const { onLogin, noAuth, resetPassword } = useAuth();
+  const [fields, setFields] = useState({
+    email: "",
+    password: "",
+    newPassword: "",
+  });
   const [reset, setReset] = useState(false);
+  const [succesReset, setSuccesReset] = useState(false);
+  const resetPass = () => {
+    resetPassword(fields.email, fields.newPassword);
+    setSuccesReset(true);
+    setReset(false);
+  };
   const submit = (e) => {
     e.preventDefault();
-    onLogin(fields.email, fields.password);
+    reset ? resetPass() : onLogin(fields.email, fields.password);
   };
   return (
     <form onSubmit={submit}>
@@ -19,7 +29,7 @@ function Login() {
             Nie masz dostępu do tej aplikacji
           </p>
         )} */}
-          {noAuth && (
+          {noAuth && !reset && (
             <p className="loginWrapper__loginContainer__errorMessage">
               Niepoprawny login lub hasło
             </p>
@@ -34,7 +44,8 @@ function Login() {
               name="email"
               className="loginWrapper__loginContainer__inputContainer__mail"
               placeholder="email"
-              required
+              required={!reset}
+              disabled={reset}
               onChange={(e) => {
                 setFields({ ...fields, email: e.target.value });
               }}
@@ -45,7 +56,8 @@ function Login() {
               className="loginWrapper__loginContainer__inputContainer__password"
               placeholder="Hasło"
               autoComplete="on"
-              required
+              required={!reset}
+              disabled={reset}
               onChange={(e) => {
                 setFields({ ...fields, password: e.target.value });
               }}
@@ -53,10 +65,16 @@ function Login() {
             <button
               style={{ width: "100%" }}
               type="submit"
+              disabled={reset}
               className="loginWrapper__loginContainer__inputContainer__button"
             >
               Login
             </button>
+            {succesReset && !noAuth && (
+              <p className="loginWrapper__loginContainer__succesMessage">
+                Hasło zostało zmienione
+              </p>
+            )}
           </div>
           <p
             className="loginWrapper__loginContainer__link"
@@ -80,10 +98,27 @@ function Login() {
                 }}
               ></input>
               <input
+                type="password"
+                name="password"
+                className="loginWrapper__loginContainer__inputContainer__password"
+                placeholder="Nowe hasło"
+                autoComplete="on"
+                required
+                onChange={(e) => {
+                  setFields({ ...fields, newPassword: e.target.value });
+                }}
+              ></input>
+              <button
                 type="submit"
                 className="loginWrapper__loginContainer__inputContainer__button"
-                value="Wyślij"
-              ></input>
+              >
+                Resetuj
+              </button>
+              {noAuth && reset && (
+                <p className="loginWrapper__loginContainer__errorMessage">
+                  Niepoprawny email
+                </p>
+              )}
             </div>
           )}
         </div>
