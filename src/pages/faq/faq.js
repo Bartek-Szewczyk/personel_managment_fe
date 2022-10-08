@@ -9,21 +9,21 @@ function FaqSite() {
     title: "FAQ Pracownik",
     rows: [
       {
-        title: "Lorem ipsum dolor sit amet,",
+        title: "Jak zgłośić się na zmianę?",
         content: "Lorem ipsum dolor sit amet, consectetur ",
       },
       {
-        title: "Nunc maximus, magna at ultricies elementum",
+        title: "Kiedy moje zgłoszenie zostało przyjętę?",
         content:
           "Nunc maximus, magna at ultricies elementum, risus turpis vulputate quam.",
       },
       {
-        title: "Curabitur laoreet, mauris vel blandit fringilla",
+        title: "Jak raportować godziny pracy?",
         content:
           "Curabitur laoreet, mauris vel blandit fringilla, leo elit rhoncus nunc",
       },
       {
-        title: "What is the package version",
+        title: "Zmiana hasła",
         content: "v1.0.5",
       },
     ],
@@ -33,21 +33,25 @@ function FaqSite() {
     title: "FAQ Administartor",
     rows: [
       {
-        title: "Lorem ipsum dolor sit amet 2,",
+        title: "Jak dodać nowego pracownika?",
         content: "Lorem ipsum dolor sit amet, consectetur ",
       },
       {
-        title: "Nunc maximus, magna at ultricies elementum",
+        title: "Jak dodać nową zmianę?",
         content:
           "Nunc maximus, magna at ultricies elementum, risus turpis vulputate quam.",
       },
       {
-        title: "Curabitur laoreet, mauris vel blandit fringilla",
+        title: "Akceptowanie użytkownika na konkretną zmianę",
         content:
           "Curabitur laoreet, mauris vel blandit fringilla, leo elit rhoncus nunc",
       },
       {
-        title: "What is the package version",
+        title: "Wypłaty pracowników",
+        content: "v1.0.5",
+      },
+      {
+        title: "Zmiana hasła",
         content: "v1.0.5",
       },
     ],
@@ -64,7 +68,7 @@ function FaqSite() {
     return data.title === activeData.title;
   };
   return (
-    <Layout title="FAQ">
+    <Layout title="Najczęsciej zadawane pytania">
       <div className="faqContainer">
         <div className="faqContainer__buttonContainer">
           <button

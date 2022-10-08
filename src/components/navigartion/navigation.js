@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, Link } from "react-router-dom";
 import CustomLink from "../customLink/customLink";
-import ExampleLogo from "../../assets/exampleLogo.png";
+import ExampleLogo from "../../assets/exampleLogo.svg";
 import "./navigartion.scss";
 import useAuth from "../../services/auth/hooks";
 
