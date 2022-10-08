@@ -6,7 +6,9 @@ import {
   ButtonWrapper,
   Button,
   ContentContainer,
+  QuestionImg,
 } from "./styleLayout.js";
+import { Link } from "react-router-dom";
 
 function Layout({ title, buttonText, buttonAction, children }) {
   const buttonHandler = () => buttonAction();
@@ -21,6 +23,9 @@ function Layout({ title, buttonText, buttonAction, children }) {
         )}
       </TitleContainer>
       <ContentContainer>{children}</ContentContainer>
+      <Link to="/faq">
+        <QuestionImg />
+      </Link>
     </LayoutWrapper>
   );
 }

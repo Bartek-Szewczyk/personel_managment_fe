@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import { color } from "../../theme/globalStyle";
+import questionIcon from "../../assets/questionIcon.svg";
 
 export const LayoutWrapper = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  width: 100%;
 `;
 export const TitleContainer = styled.div`
   margin-top: 20px;
@@ -38,4 +40,12 @@ export const Button = styled.button`
 `;
 export const ContentContainer = styled.div`
   margin: 0 5% 100px 5%;
+`;
+export const QuestionImg = styled.img.attrs((attrs) => ({
+  src: questionIcon,
+}))`
+  width: 60px;
+  right: 15px;
+  bottom: 15px;
+  position: fixed;
 `;

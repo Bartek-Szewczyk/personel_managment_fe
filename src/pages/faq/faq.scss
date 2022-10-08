@@ -1,0 +1,27 @@
+@import "../../theme/globalStyle.scss";
+
+.faqContainer {
+  width: 100%;
+  &__buttonContainer {
+    padding: 10px 0px;
+    &__button {
+      min-width: 200px;
+      padding: 10px;
+      font-size: 20px;
+      border: 1px solid;
+      border-radius: 4px;
+      height: 54px;
+      background-color: $base-color;
+      border: none;
+      color: #ffffff;
+      cursor: pointer;
+      margin-right: 10px;
+      &:hover {
+        background-color: $base-color-hover;
+      }
+    }
+    .faqActive {
+      background-color: $base-color-hover;
+    }
+  }
+}
