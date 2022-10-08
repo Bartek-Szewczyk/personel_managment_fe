@@ -11,6 +11,7 @@ import authService from "./services/authService";
 import ProtectedRoute from "./services/auth/ProtectedRoute";
 import { AuthProvider } from "./services/auth/authProvider";
 import MyEvents from "./pages/myEvents/myEvents";
+import Faq from "./pages/faq/faq";
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="faq" element={<Faq />} />
           <Route path="login" element={<Login />} />
           <Route path="login/reset" element={<Reset />} />
           <Route path="*" element={<Error />} />
